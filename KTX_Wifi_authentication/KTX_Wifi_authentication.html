@@ -1,0 +1,242 @@
+
+
+
+
+
+
+
+
+
+
+
+<!DOCTYPE html>
+<html lang="ko-kr">
+
+<meta http-equiv="Cache-Control" content="no-cache"/> 
+<meta http-equiv="Expires" content="0"/> 
+<meta http-equiv="Pragma" content="no-cache"/>
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<title data-loc="pageTitle:html">무료 Wi-Fi</title>
+<link rel="stylesheet" type="text/css" href="/imgfiles/jquery/login.css">
+<script src="/imgfiles/jquery/jquery-1.12.0.min.js"></script>
+
+
+<script>
+function sendEvent(url) {
+	landingForm.submit();
+}
+</script>
+
+
+<script>
+
+
+var filesUrl = "/imgfiles/";
+
+
+var adDuration	= 4;
+
+
+var skipAd 	= 0;
+
+var langWords = {
+	ko:{
+		pageTitle		:"무료 Wi-Fi",
+		navLogo			:"url("+filesUrl+"tubebox.png)",
+		navTitle		:"무료 Wi-Fi!",
+		navTitleWait	:"연결중",
+		majorTitle		:"KTX 무료 Wi-Fi",
+		minorTitle		:"무료 Wi-Fi를 이용할 수 있습니다.",
+		btnAuth			:"무료 Wi-Fi 연결",
+		btnContinue 	:"연결하기",
+		thumbnailImg	:"#FFF url("+filesUrl+"thumbnail_ko.png)",
+		displayImg		:"",
+		reBackground	:"url(" +filesUrl+ "ktx.jpg)",
+		adBackground	:"/imgfiles/ktx.jpg",
+		loadingTitle	:"로딩중 입니다.",
+		landingURL 		:"",
+		movieTitle		:"동영상 Play 버튼 클릭"
+	}
+}
+
+function getLangCode(){
+	return "ko";
+}
+
+function getWord(wordName){
+	var languageCode = getLangCode();
+	if(langWords[languageCode][wordName]!=undefined)
+		return langWords[languageCode][wordName];
+	else
+		return false;
+}
+
+function actionContinue(wait_sec){
+	
+	$("#lblCountSec").html(wait_sec);
+	localizationDisp("navTitle", "navTitleWait");
+	$("#lblCountSec").fadeIn(200);
+	
+	var timer = setInterval(function () {
+		wait_sec--;
+	  
+		$("#lblCountSec").html(wait_sec);
+		localizationDisp("navTitle", "navTitleWait");
+      
+		if(wait_sec == 0){
+			$("#lblCountSec").fadeOut(100);
+			$("#btnAuth").slideDown(200);
+    	  
+			clearInterval(timer);
+			localizationDisp("navTitle");
+    	  
+			$("#btnAuth").click(function(){
+				sendEvent("login");
+			});
+		}
+  	}, 1000);
+	
+}
+
+function localizationDisp(locKey, wordKey){
+	var locObj = $("[data-loc^='"+ locKey +"']");
+	var argObj = $(locObj).attr("data-loc").split(":");
+	var locType = argObj[1];
+	
+	locKey = argObj[0];
+	locType = (!locType) ? "html" : locType
+	wordKey = (!wordKey) ? locKey : wordKey;
+	
+	var word = getWord(wordKey);
+	
+	if (word) {
+		switch(locType){
+			case "val":
+				locObj.val(getWord(wordKey));
+				break;
+			case "css":
+				locObj.css(argObj[2],getWord(wordKey));
+				break;
+			case "attr":
+				locObj.attr(argObj[2],getWord(wordKey));
+				break;
+			case "html":
+				locObj.html(getWord(wordKey));
+				break;
+			default:
+		}
+	}
+}
+
+function locFullDisp(){
+	var langCode = getLangCode();
+	
+	$('[data-loc]').each(function(){
+		localizationDisp($(this).attr("data-loc"));
+	});
+}
+
+
+function adjustmentHeight(){
+	$(".imgWrapper").css("height",window.innerHeight-40);
+}
+
+
+var showLoadingDots = function() {
+    if (!$("#loadingDots").length>0) return false;
+
+    var showDots = setInterval(function(){
+        var d = $("#loadingDots");
+        d.text().length >= 4 ? d.text('') : d.append('.');
+    },500);
+}
+
+$(document).ready(function(){
+	
+  	$("#btnContinue").click(function(){
+  		sendEvent("login");
+	});
+	
+});
+
+$(document).bind("contextmenu", function(e){ return false; });
+</script>
+
+
+</head>
+<body>
+	<header>
+		<nav>
+			<span class="logo" data-loc="navLogo:css:background-image" style="background-image: url('/imgfiles/tubebox.png');"></span>
+			<span class="title" data-loc="navTitle:html">무료 Wi-Fi!</span>
+			<div class="right" id="lblCountSec">10</div>
+		</nav>
+		
+	</header>
+	<section>
+		<article class="page bg">
+ 			<section class="bgWrapper" id="reBackground">
+				<div class="bg-img" data-loc="reBackground:css:background-image" style="background-image: url('/imgfiles/ktx.jpg');"></div>
+			</section>
+			<section class="bgWrapper" id="adBackground" style="display:none;">
+				<div class="bg-img" data-loc="adBackground:css:background-image" style="background-image: url('/imgfiles/ktx.jpg');"></div>
+			</section>
+		</article>
+		<article class="page reception">
+			<header></header> <!--I hate collapse margin!-->
+			<section class="ctWrapper">
+				<section class="ct">
+				 	<div class="thumbnail" data-loc="thumbnailImg:css:background" style="background: url('/imgfiles/thumbnail_ko.png') rgb(255, 255, 255);"></div>
+					<div class="title">
+						<p class="major" data-loc="majorTitle:html">KTX 무료 Wi-Fi</p>
+						<p class="minor" data-loc="minorTitle:html">무료 Wi-Fi를 이용할 수 있습니다..</p>
+						
+					</div>
+					
+ 					<div class="buttons" style="z-index:999999;">
+						<button class="btn btn-red" id="btnContinue" data-loc="btnContinue:html">연결하기</button>
+					</div>
+					
+				</section>
+			</section>
+		</article>
+		<article class="page ad-display" style="display:none;">
+			<header></header>
+
+			<section class="ct">
+				<div class="imgWrapper" style="height: 1310px;">
+				
+					<img class="adImg" alt="" title="" data-loc="displayImg:attr:src" src="">
+				
+				</div>
+			</section>
+			<footer>
+				
+				<div class="buttons">
+					<button id="btnAuth" class="btn btn-red" data-loc="btnAuth:html" style="display:none;">무료 Wi-Fi 연결</button>
+				</div>
+				
+				
+				
+ 				<form action="/cgi-bin/xirrus.cgi" name="landingForm" id="landingForm" method="post">
+					<input type="hidden" name="UserName" id="UserName" value="3052cbf41f92">
+					<input type="hidden" name="Password" id="Password" value="3052cbf41f92">
+					<input type="hidden" name="challenge" id="challenge" value="514aa3f5a91a5766cbdcae879bf78334">
+					<input type="hidden" name="uamip" id="uamip" value="185.0.0.1">
+					<input type="hidden" name="uamport" id="uamport" value="10000">
+
+					
+					<input type="hidden" name="userurl" id="userurl" value="http://m.yna.co.kr">
+					
+				</form>
+
+ 				
+			</footer>
+		</article>
+	</section>
+	<div class="clearfix"></div>
+
+</body>
+</html>
