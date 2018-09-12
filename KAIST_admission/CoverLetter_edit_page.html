@@ -1,0 +1,523 @@
+<!-- 
+WHY it is interesting(180912)
+1. PDF file size checking function.
+2. PDF file count checking function.
+3. How it actually uploads the pdf file... to the server...
+4. How the edited 'letter' gets saved with a CLick!...
+5. Just the 'TEXTAREA' a lot of 'em haha.'
+-->
+
+<!doctype html>
+<html lang="ko">
+<head>
+<meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+<meta charset="utf-8">
+ <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=no">
+<title>KAIST 지원자 시스템</title>
+<link href="/Scripts/jquery/jquery-ui-1.9.2.custom.min.css" rel="stylesheet" type="text/css" />
+<link href="/Scripts/jquery/jquery.loadmask/jquery.loadmask.css" rel="stylesheet" type="text/css" />
+<link href="/Scripts/jquery/jquery.easyUI/themes/default/easyui.css" rel="stylesheet" type="text/css" />
+<link href="/Scripts/jquery/jquery.easyUI/themes/icon.css" rel="stylesheet" type="text/css" />
+<link href="/Content/Css/common.css" rel="stylesheet" type="text/css"/>
+<link href="/Content/Css/layout.css" rel="stylesheet" type="text/css"/>
+
+<script type="text/javascript" src="/Scripts/jquery/jquery-1.9.1.min.js"></script>
+<script type="text/javascript" src="/Scripts/jquery/jquery-ui-1.9.2.min.js"></script>
+<script type="text/javascript" src="/Scripts/default.js"></script>
+<script type="text/javascript" src="/Scripts/respond.src.js"></script>
+<script type="text/javascript" src="/Scripts/jquery/jquery.form.min.js"></script>
+<script type="text/javascript" src="/Scripts/jquery/jquery.easyUI/jquery.easyui.min.js"></script>
+<script type="text/javascript" src="/Scripts/jquery/jquery.loadmask/jquery.loadmask.min.js"></script>
+<script type="text/javascript" src="/Scripts/jquery/jquery.fileDownload.js"></script>
+
+<script type="text/javascript" src="/Scripts/jquery/jquery.alphanum.js"></script>
+<script type="text/javascript" src="/Scripts/messageResource.js"></script>
+<script type="text/javascript" src="/Scripts/common.js"></script>
+<script type="text/javascript" src="/Scripts/jquery/jquery.datepicker/jquery.datepicker-ko.js"></script>
+<script type="text/javascript" src="/Scripts/jquery/jquery.fileupload/jquery.fileupload.js"></script>
+<script type="text/javascript" src="/Scripts/jquery/jquery.fileupload/jquery.iframe-transport.js"></script>
+
+    <script src="https://spi.maps.daum.net/imap/map_js_init/postcode.v2.js"></script>
+
+
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            var route = '';
+            var msg = '';
+            if (route == "Msg") { alert(msg); }
+            var attach_max = 4; 
+
+            $('form#self-form textarea[name=Answer]').bind({
+                keyup: function () {
+                    var idx = $('form#self-form textarea').index($(this)) + 1;
+                    fn_CharLineLimitCheck(
+                          this
+                        , $('span#sp_Word_Answer_' + idx).text()
+                        ,  $('#Line_Num_' + idx).val()
+                        , 'sp_Answer_' + idx
+                        , null
+                    );
+                },
+                focusout: function () {
+                    $(this).trigger('keyup');
+                }
+            })
+            // 수정 처음 로드 시 작성된 글자수/라인수 적용
+            .keyup(); 
+
+            // 마이페이지 이동
+            $('form#self-form input[id=btn-back-one]').click(function () {
+                location.href = '/UnivApply/UnivManagement/WriteConfirm';
+            });
+
+            //확인버튼
+            $('form#self-form input[id=btn-selfcheck-one]').click(function () {
+                location.href = '/UnivApply/UnivManagement/WriteConfirm';
+            });
+
+            // 작성완료 버튼
+            $('form#self-form input[id=btn-selfsave-one]').click(function () {
+                var validchk;
+
+                var filecnt = $('form#self-form tr.upload-file-list').length;    // 수정 시 기존 업로드된 파일개수
+                $('form#self-form textarea').each(function () {
+                    // 작성 필수 항목 체크
+                    if ($(this).data('valid') == 'Y') {
+                        if ($(this).val().isBlank()) {
+                            idx = $('form#self-form textarea').index($(this)) + 1;
+                            alert(idx + "번 항목의 자기소개서를 작성하여 주세요.");
+                            $(this).focus();
+                            return validchk = false;
+                        }
+                    }
+                });
+
+                // 입력내용 체크 
+                if (validchk == false) return false;
+
+                // 자기소개서 증빙서류 파일추가 수량 제한
+                $('form#self-form input:file[name^=File_Nm_]').not('[name=File_Nm_Principal_0]').each(function () {
+                    if (!$(this).val().isBlank()) {
+                        filecnt += 1;
+                    }
+                });
+
+                if (filecnt > attach_max) {
+                    alert('자기소개서 증빙서류 파일추가는 최대 ' + attach_max + '개 까지만 등록 가능합니다.');
+                    return false;
+                }
+
+                if ($('form#self-form input[id=Selfintroduction_confirm]').length > 0) {
+                    if (!$('form#self-form input[id=Selfintroduction_confirm]').is(':checked')) {
+                        alert("자기소개서 서약 내용을 확인하셨습니까?\r\n확인을 체크 하셔야만 자기소개서를 작성하실 수 있습니다."); 
+                        $('form#self-form input[id=Selfintroduction_confirm]').focus(); 
+                        return false;
+                    }
+                }
+
+                if (!confirm('자기소개서를 등록 하시겠습니까?')) return false;
+
+                return true;
+            });
+
+            // 임시저장 버튼
+            $('form#self-form input[id=btn-selftempsave-one]').click(function () {
+                // ajax로 진행
+                $.post('/UnivApply/UnivApply/SelfIntroductionTempSave', $('form#self-form').serialize() ,function (data, textStatus, jqXHR) {
+                    if (data.Result == '0') {
+                        alert("자기소개서 임시저장 되었습니다.\n\n작성완료를 하셔야 최종 제출완료 됩니다.");
+                    } else {
+                        alert(data.ResultMessage)
+                    }
+                }, 'json')
+                .fail(function (jqXHR, textStatus, errorThrown) {
+                    alert(errorThrown);
+                })
+                .always(function () {
+                });
+            });
+
+            
+            // 첨부파일 추가 버튼
+            $('form#self-form input:button[name=btn-upfile-add]').click(function () {
+                var fileCnt= $('form#self-form tr.upload-file-list').length;
+                var assessment_num = $(this).attr('assessment_num');
+                $('form#self-form input:file[name^=File_Nm_]').not('[name=File_Nm_Principal_0]').each(function () {
+                        fileCnt += 1;
+                });
+                
+                if (fileCnt >= attach_max) {
+                    alert('자기소개서 증빙서류 파일추가는 최대 ' + attach_max + '개 까지만 등록 가능합니다.');
+                    return false;
+                }
+                
+                var tr = '';
+                tr += '<tr>';
+                tr += '<td style="width:60%;">';
+                tr += '첨부파일 : <input type="file" name="File_Nm_' + assessment_num + '" style="width:365px;" /> ';
+                tr += '<input type="button" class="btn20 silver" value="삭제" name="btn-upfile-del" style="cursor:pointer;" />';
+                tr += '</td>';
+                tr += '</tr>';
+                $('#tb-file_' + assessment_num).append(tr);
+            });
+
+            // 첨부파일 삭제 버튼
+            $('form#self-form').on('click', 'input[name=btn-upfile-del]', function () {
+                $(this).closest('tr').remove();
+            });
+
+        });
+
+        var file = {
+            download: function (assessment_num, order_seq) {
+                var param = {
+                    Assessment_Num: assessment_num,
+                    Order_Seq: order_seq
+                };
+
+                $.fileDownload('/UnivApply/UnivApply/SelfIntroductionFileDownload', {
+                    //preparingMessageHtml: "파일 다운로드 중...",
+                    //failMessageHtml: "파일 다운로드 중 오류가 발생 하였습니다.",
+                    httpMethod: 'get',
+                    data: param,
+                    successCallback: function () {
+                        //alert('다운로드 성공');
+                    },
+                    failCallback: function (responseHtml, url) {
+                        alert(messageResource.createmsg('kr', 'fileDownloadError'));
+                    }
+                });
+            },
+
+            deletefile: function (target, assessment_num, order_seq) {
+                if (confirm(messageResource.createmsg('kr', 'deleteConfirm', ['파일을']))) {
+                    var param = {
+                        Assessment_Num: assessment_num,
+                        Order_Seq: order_seq
+                    };
+
+                    $.post('/UnivApply/UnivApply/SelfIntroductionFileDelete', param, function (data) {
+                        if (data.Result == '0') {
+                            alert(messageResource.createmsg('kr', 'deleteComplete'));
+                            $(target).closest('tr').remove();
+                        } else {
+                            alert(data.ResultMessage);
+                        }
+                    }, 'json')
+                    .fail(function (jqXHR, textStatus, errorThrown) {
+                        alert(errorThrown);
+                    })
+                    .always(function () {
+                        $('body').unmask();
+                    });
+                }
+            }
+        };
+    </script>
+
+</head>
+<body>
+<div class="wrap">
+    <!-- 헤더 / ST -->
+    <div class="header">
+
+
+<p class="skip"><a href="#content">메뉴 건너뛰기 ▼</a></p>
+        
+<h1 class="logo_01"><a href="/UnivApply/" title="메인페이지"><span>카이스트 로고</span></a></h1>
+        
+<h2 class="hidden">사이트 바로가기</h2>
+<div class="shortcut">
+    <div class="mlayout">
+    <ul>
+        <li><a href="/univapply/" title="메인페이지" >Home</a></li>
+        <li><a href="http://www.kaist.ac.kr/html/kr/index.html" title="카이스트 대표홈페이지" target="_blank">KAIST</a></li>
+        <li><a href="http://admission.kaist.ac.kr/undergraduate/" title="입학정보 홈페이지" target="_blank">입학정보</a></li>
+            <li><a href="/UnivApply/UnivApply/LogOut" title="로그아웃">로그아웃</a></li>
+    </ul>
+    </div>
+</div>
+        
+<h2 class="hidden">메인메뉴</h2>
+<div class="gnb mlayout">
+    
+    <a href="/mainmenu" title="메인메뉴열기닫기"><span>메인메뉴 열기/닫기<i></i><i></i><i></i></span></a>
+    <ul class="gnb-list">
+        <li class="active">
+            <a href="/UnivApply/UnivApply/Schedule" title="지원서작성">지원서작성</a>
+        </li>
+        <li>
+            <a href="/UnivApply/UnivManagement/WriteConfirm" title="마이페이지">마이페이지</a> 
+        </li>
+        <li>
+            <a href="/UnivApply/UnivDocument/DocumentConfirm" title="제출서류관리">제출서류관리</a> 
+        </li>
+        <li>
+            <a href="/UnivApply/UnivSuccess/SuccessConfirm" title="합격자발표">합격자발표</a>
+        </li>
+        <li>
+            <a href="/UnivApply/UnivSuccessDocument/SuccessDocumentConfirm" title="최종합격자제출서류">최종합격자제출서류</a> 
+        </li>
+		<li class="login_out">
+			<ul>
+                    <li><a href="/UnivApply/UnivApply/LogOut" title="로그아웃">로그아웃</a></li>
+			</ul>
+		</li>
+    </ul>
+</div>
+
+
+
+
+
+
+
+    </div>
+    <!-- 헤더 / END -->
+
+    <!-- 센터 / ST -->
+    <div class="container">
+        <div class="navi">
+            <h2 class="hidden">현재위치</h2>
+            
+<ul>
+    <li class="home">Home</li>
+    <li>&gt;</li>
+    <li>지원서관리</li>
+</ul>
+
+        </div>
+        
+        <!-- 컨텐츠 / ST -->
+        <div class="content">
+            
+
+
+
+
+<!-- 외국고전형일경우 탭5개 노출 클래스명 탭4개일경우:class="Schedule_title_3",  5개일경우:Schedule_title_3_1, Schedule_title_3_2"-->  
+<div class="Schedule_title_3"></div>
+<div id="content" class="con_wrap">
+     <h2 class="h2_01 textind">자기소개서</h2>
+    <div class="position">
+        <!-- 탭별 클래스 지정 3개일 경우:class="tabbox_3",  4개일경우:class="tabbox_4", 5개일경우:class="tabbox_5"-->
+
+        <!-- 기타전형 외국고전형 일때만 표시 -->
+                <ul class="tabbox_4">
+			        <li><span class="first">이용안내</span></li>
+			        <li><span>지원서작성</span></li>
+			        <li class="on"><span>자기소개서작성</span></li>
+			        <li><span class="last">전형료납부</span></li>
+			    </ul>	  
+		
+    </div>
+    <br />
+
+    <table style="background-color:#cfcfcf;width:100%;font-size:14px;border:1px solid black">
+        <tbody>
+            <tr><td style="border:none; text-align:center;padding-top:5px;padding-bottom:5px;"><strong><b>KAIST는 도전정신, 창의성, 배려심을 갖춘 인재를 양성하고자 합니다. <Br />
+                                                            이러한 KAIST 인재상을 참고하여 고등학교 재학 중 교내 활동을 중심으로 자기소개서를 작성해 주시기 바랍니다.</b></strong></td></tr>
+        </tbody>
+    </table>
+
+<form action="/UnivApply/UnivApply/SelfIntroductionSave" enctype="multipart/form-data" id="self-form" method="post"><input id="Assessment_Num" name="Assessment_Num" type="hidden" value="70" /><input id="Line_Num_1" name="Line_Num_1" type="hidden" value="15" />                <div>
+                <p style="font-size:14px;font-weight:bold;margin-top:15px;">1. 고등학교 재학기간 중 본인이 의미를 두고 노력했던 교내 활동(3개 이내)을 통해 배우고 느낀 점을 중심으로 기술해 주시기 바랍니다. 단, 교외 활동 중 학교장의 허락을 받고 참여한 활동은 포함됩니다(1,500자 이내).</p>
+                    <span></span>
+
+                                <span style="color:red;">(필수)</span>
+                      
+                             (<span id="sp_Answer_1" >1503</span> / <span id="sp_Word_Answer_1">1500</span> 자)
+                    
+                            
+                                <p><textarea cols="20" data-valid="Y" id="Answer" name="Answer" rows="2" style="background:url(/Content/img/text_bg.gif) repeat; border:1px solid #9DA6AD; line-height:20px; margin:5px 0 20px 15px; height:200px; width:95%; font-size:9pt; font-family:GulimChe; overflow:auto;">
+BLA BLA BLA</textarea></p>
+                            <input id="Answer_Org" name="Answer_Org" type="hidden" value="" />
+                    <!-- 자기소개서 증빙서류 업로드 사용여부 -->
+                            <table class="ml20" style="width:100%;" id="tb-file_70" >
+                                        <tr class="upload-file-list">
+                                            <td>
+                                                <span class="pr10">자소서1번 증빙자료.pdf</span>
+                                                <input type="button" class="btn20 darkcyan" value="다운로드" onclick="file.download(70, 1);" />
+ <input type="button" class="btn20 silver" value="파일삭제" onclick="file.deletefile(this, 70, 1);" />                                            </td>
+                                        </tr>
+  
+                                <tr>
+                                    <td>
+                                        <input type="button" class="btn20 darkblue" style="cursor:pointer;" value="자기소개서 증빙서류 파일추가" name="btn-upfile-add" assessment_num="70" />
+                                        <span>(※ PDF형식 파일만 가능 합니다.)</span>
+                                    </td>
+                                </tr>
+                            </table>
+                            <br />
+
+                </div>   
+<input id="Assessment_Num" name="Assessment_Num" type="hidden" value="71" /><input id="Line_Num_2" name="Line_Num_2" type="hidden" value="10" />                <div>
+                <p style="font-size:14px;font-weight:bold;margin-top:15px;">2. 남들과 다른 방식으로 생각하거나 시도한 사례를 들고, 그것이 본인과 주변에 어떤 영향을 주었는지 기술해 주시기 바랍니다(1,000자 이내).</p>
+                    <span></span>
+
+                                <span style="color:red;">(필수)</span>
+                      
+                             (<span id="sp_Answer_2" >1004</span> / <span id="sp_Word_Answer_2">1000</span> 자)
+                    
+                            
+                                <p><textarea cols="20" data-valid="Y" id="Answer" name="Answer" rows="2" style="background:url(/Content/img/text_bg.gif) repeat; border:1px solid #9DA6AD; line-height:20px; margin:5px 0 20px 15px; height:200px; width:95%; font-size:9pt; font-family:GulimChe; overflow:auto;">
+BLA BLA BLA</textarea></p>
+                            <input id="Answer_Org" name="Answer_Org" type="hidden" value="" />
+                    <!-- 자기소개서 증빙서류 업로드 사용여부 -->
+                            <table class="ml20" style="width:100%;" id="tb-file_71" >
+                                        <tr class="upload-file-list">
+                                            <td>
+                                                <span class="pr10">자소서2번 증빙자료.pdf</span>
+                                                <input type="button" class="btn20 darkcyan" value="다운로드" onclick="file.download(71, 1);" />
+ <input type="button" class="btn20 silver" value="파일삭제" onclick="file.deletefile(this, 71, 1);" />                                            </td>
+                                        </tr>
+  
+                                <tr>
+                                    <td>
+                                        <input type="button" class="btn20 darkblue" style="cursor:pointer;" value="자기소개서 증빙서류 파일추가" name="btn-upfile-add" assessment_num="71" />
+                                        <span>(※ PDF형식 파일만 가능 합니다.)</span>
+                                    </td>
+                                </tr>
+                            </table>
+                            <br />
+
+                </div>   
+<input id="Assessment_Num" name="Assessment_Num" type="hidden" value="72" /><input id="Line_Num_3" name="Line_Num_3" type="hidden" value="10" />                <div>
+                <p style="font-size:14px;font-weight:bold;margin-top:15px;">3. 학교생활 중 배려, 나눔, 협력, 갈등 관리 등을 실천한 사례를 들고, 그 과정을 통해 배우고 느낀 점을 기술해 주시기 바랍니다(1,000자 이내).</p>
+                    <span></span>
+
+                                <span style="color:red;">(필수)</span>
+                      
+                             (<span id="sp_Answer_3" >1004</span> / <span id="sp_Word_Answer_3">1000</span> 자)
+                    
+                            
+                                <p><textarea cols="20" data-valid="Y" id="Answer" name="Answer" rows="2" style="background:url(/Content/img/text_bg.gif) repeat; border:1px solid #9DA6AD; line-height:20px; margin:5px 0 20px 15px; height:200px; width:95%; font-size:9pt; font-family:GulimChe; overflow:auto;">
+BLA BLA BLA</textarea></p>
+                            <input id="Answer_Org" name="Answer_Org" type="hidden" value="" />
+                    <!-- 자기소개서 증빙서류 업로드 사용여부 -->
+                            <table class="ml20" style="width:100%;" id="tb-file_72" >
+  
+                                <tr>
+                                    <td>
+                                        <input type="button" class="btn20 darkblue" style="cursor:pointer;" value="자기소개서 증빙서류 파일추가" name="btn-upfile-add" assessment_num="72" />
+                                        <span>(※ PDF형식 파일만 가능 합니다.)</span>
+                                    </td>
+                                </tr>
+                            </table>
+                            <br />
+
+                </div>   
+<input id="Assessment_Num" name="Assessment_Num" type="hidden" value="73" /><input id="Line_Num_4" name="Line_Num_4" type="hidden" value="10" />                <div>
+                <p style="font-size:14px;font-weight:bold;margin-top:15px;">4. 본인의 꿈(목표)은 무엇이며, 그것을 이루기 위해 지금까지 기울인 노력과 앞으로의 계획을 기술해 주시기 바랍니다(1,000자 이내).</p>
+                    <span>※ 꿈을 이루기 위하여 KAIST를 선택한 이유와 그 과정에서 예상되는 역경을 포함하여 작성해 주시기 바랍니다.</span>
+
+                                <span style="color:red;">(필수)</span>
+                      
+                             (<span id="sp_Answer_4" >1006</span> / <span id="sp_Word_Answer_4">1000</span> 자)
+                    
+                            
+                                <p><textarea cols="20" data-valid="Y" id="Answer" name="Answer" rows="2" style="background:url(/Content/img/text_bg.gif) repeat; border:1px solid #9DA6AD; line-height:20px; margin:5px 0 20px 15px; height:200px; width:95%; font-size:9pt; font-family:GulimChe; overflow:auto;">
+BLA BLA BLA</textarea></p>
+                            <input id="Answer_Org" name="Answer_Org" type="hidden" value="" />
+                    <!-- 자기소개서 증빙서류 업로드 사용여부 -->
+                            <table class="ml20" style="width:100%;" id="tb-file_73" >
+                                        <tr class="upload-file-list">
+                                            <td>
+                                                <span class="pr10">자소서4번 증빙자료.pdf</span>
+                                                <input type="button" class="btn20 darkcyan" value="다운로드" onclick="file.download(73, 1);" />
+ <input type="button" class="btn20 silver" value="파일삭제" onclick="file.deletefile(this, 73, 1);" />                                            </td>
+                                        </tr>
+  
+                                <tr>
+                                    <td>
+                                        <input type="button" class="btn20 darkblue" style="cursor:pointer;" value="자기소개서 증빙서류 파일추가" name="btn-upfile-add" assessment_num="73" />
+                                        <span>(※ PDF형식 파일만 가능 합니다.)</span>
+                                    </td>
+                                </tr>
+                            </table>
+                            <br />
+
+                </div>   
+<input id="Assessment_Num" name="Assessment_Num" type="hidden" value="74" /><input id="Line_Num_5" name="Line_Num_5" type="hidden" value="10" />                <div>
+                <p style="font-size:14px;font-weight:bold;margin-top:15px;">5. 위 문항 외에 작성하고 싶은 내용을 자유롭게 기술해 주시기 바랍니다(1,000자 이내).</p>
+                    <span>※ 고교 졸업자의 경우, 고교 졸업 이후의 활동을 포함하여 작성해 주시기 바랍니다.</span>
+
+                                <span style="color:red;">(필수)</span>
+                      
+                             (<span id="sp_Answer_5" >1005</span> / <span id="sp_Word_Answer_5">1000</span> 자)
+                    
+                            
+                                <p><textarea cols="20" data-valid="Y" id="Answer" name="Answer" rows="2" style="background:url(/Content/img/text_bg.gif) repeat; border:1px solid #9DA6AD; line-height:20px; margin:5px 0 20px 15px; height:200px; width:95%; font-size:9pt; font-family:GulimChe; overflow:auto;">
+BLA BLA BLA</textarea></p>
+                            <input id="Answer_Org" name="Answer_Org" type="hidden" value="" />
+                    <!-- 자기소개서 증빙서류 업로드 사용여부 -->
+                            <table class="ml20" style="width:100%;" id="tb-file_74" >
+                                        <tr class="upload-file-list">
+                                            <td>
+                                                <span class="pr10">자소서5번 증빙자료.pdf</span>
+                                                <input type="button" class="btn20 darkcyan" value="다운로드" onclick="file.download(74, 1);" />
+ <input type="button" class="btn20 silver" value="파일삭제" onclick="file.deletefile(this, 74, 1);" />                                            </td>
+                                        </tr>
+  
+                                <tr>
+                                    <td>
+                                        <input type="button" class="btn20 darkblue" style="cursor:pointer;" value="자기소개서 증빙서류 파일추가" name="btn-upfile-add" assessment_num="74" />
+                                        <span>(※ PDF형식 파일만 가능 합니다.)</span>
+                                    </td>
+                                </tr>
+                            </table>
+                            <br />
+
+                </div>   
+        <table class="tbl_row1">
+			<colgroup>
+                <col style="width:100%">
+			</colgroup>
+			<tbody>
+			<tr class="tr_1_01">
+                <td>
+				    <p style="font-size:13px">1. 본인의 자기소개서를 사실에 근거하여 직접 작성하였습니다.</p>
+                    <p style="font-size:13px">2. 본인은 교사추천서의 열람 또는 공개를 청구하지 않을 것을 서약 합니다.</p>
+                    <p class="tc pt20">2018년 09월 12일</p>
+                            <p class="pt10" style="font-size:18px;">한국과학기술원 총장 귀하</p>
+
+                </td>
+			</tr>
+			</tbody>
+		</table>
+        <div class="tc mt40 mb40">
+            <p style="color:red; font-size:14px; text-align:left;">* 자기소개서 내용은 <span style="font-weight:bold;">[저장]</span>를 누른 후에도 <span style="font-weight:bold;">입학지원서 작성 기간 동안 [마이페이지]에서 수정</span>이 가능합니다.</p>
+            <p style="color:red; font-size:14px; text-align:left;">* 저장된 자기소개서는 <span style="font-weight:bold;">원서접수 마감시에 자동으로 최종 제출처리</span>됩니다.</p>
+            <p style="color:red; font-size:14px; text-align:left;">* 자기소개서 각 문항 별 글자 수 제한에는 <span style="font-weight:bold;">띄어쓰기 및 문장부호를 포함</span>합니다.</p>
+                    <p style="color:red; font-size:14px; text-align:left;">* 자기소개서 증빙서류 파일은 <span style="font-weight:bold;">최대 4개 (총 4쪽 이내)</span>까지만 업로드 가능 합니다.</p>
+
+        </div>
+        <div class="tc mt40 mb40">
+            <!--<input type="button" class="btn30 red pl60 pr60" value="마이페이지" id="btn-back-one">-->
+            <!--<input type="button" class="btn30 red pl30 pr30" value="임시저장" id="btn-selftempsave-one">-->
+            &nbsp;&nbsp;&nbsp;&nbsp;
+                <input type="submit" class="btn30 red pl60 pr60" value="저장" id="btn-selfsave-one"/> 
+            
+        </div>
+</form> </div>
+
+
+        </div>
+        <!-- 컨텐츠 / ST -->
+    </div>
+
+    <div class="footer">
+<h2 class="hidden">사이트정보</h2>
+<div class="info_01">
+    <a href="http://www.kaist.ac.kr/html/kr/kaist/kaist_010506.html" target="_blank">개인정보처리방침</a> | <a href="http://www.kaist.ac.kr/html/kr/guide/guide_0704.html" target="_blank">E-mail주소집단수집거부</a>
+    <address>
+        <p><strong>우) 34141</strong> 대전광역시 유성구 대학로 291 KAIST, 입학전형팀 <strong>Tel</strong>: 042)350-2141~7 <strong>Fax</strong>: 042)350-2420 <strong>E-mail</strong>: <a href="mailto:admission@kaist.ac.kr">admission@kaist.ac.kr</a></p>
+    </address>
+    <p class="mt5">Copyright (c) 2014 by KAIST Office of Admissions. All right reserved.</p>
+    <h3 class="hidden">관련사이트</h3>
+</div>
+    </div>
+</div>
+</body>
+</html>
