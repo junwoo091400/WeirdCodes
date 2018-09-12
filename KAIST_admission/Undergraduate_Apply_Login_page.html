@@ -1,0 +1,357 @@
+<!-- 
+INTERESTING because(180912)
+1. Submit form for 'login', which has Auto-Check function for unfilled-texts. And POSTS for HTTP...
+2. Two Options '주민등록번호' or '수험번호' selective logins. Pretty cool. Switching Graphics.
+-->
+
+<!doctype html>
+<html lang="ko">
+<head>
+<meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+<meta charset="utf-8">
+ <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=no">
+<title>KAIST 지원자 시스템</title>
+<link href="/Scripts/jquery/jquery-ui-1.9.2.custom.min.css" rel="stylesheet" type="text/css" />
+<link href="/Scripts/jquery/jquery.loadmask/jquery.loadmask.css" rel="stylesheet" type="text/css" />
+<link href="/Scripts/jquery/jquery.easyUI/themes/default/easyui.css" rel="stylesheet" type="text/css" />
+<link href="/Scripts/jquery/jquery.easyUI/themes/icon.css" rel="stylesheet" type="text/css" />
+<link href="/Content/Css/common.css" rel="stylesheet" type="text/css"/>
+<link href="/Content/Css/layout.css" rel="stylesheet" type="text/css"/>
+
+<script type="text/javascript" src="/Scripts/jquery/jquery-1.9.1.min.js"></script>
+<script type="text/javascript" src="/Scripts/jquery/jquery-ui-1.9.2.min.js"></script>
+<script type="text/javascript" src="/Scripts/default.js"></script>
+<script type="text/javascript" src="/Scripts/respond.src.js"></script>
+<script type="text/javascript" src="/Scripts/jquery/jquery.form.min.js"></script>
+<script type="text/javascript" src="/Scripts/jquery/jquery.easyUI/jquery.easyui.min.js"></script>
+<script type="text/javascript" src="/Scripts/jquery/jquery.loadmask/jquery.loadmask.min.js"></script>
+<script type="text/javascript" src="/Scripts/jquery/jquery.fileDownload.js"></script>
+
+<script type="text/javascript" src="/Scripts/jquery/jquery.alphanum.js"></script>
+<script type="text/javascript" src="/Scripts/messageResource.js"></script>
+<script type="text/javascript" src="/Scripts/common.js"></script>
+<script type="text/javascript" src="/Scripts/jquery/jquery.datepicker/jquery.datepicker-ko.js"></script>
+<script type="text/javascript" src="/Scripts/jquery/jquery.fileupload/jquery.fileupload.js"></script>
+<script type="text/javascript" src="/Scripts/jquery/jquery.fileupload/jquery.iframe-transport.js"></script>
+
+    <script src="https://spi.maps.daum.net/imap/map_js_init/postcode.v2.js"></script>
+
+
+
+    <script type="text/javascript">
+        // <![CDATA[
+        $(document).ready(function () {
+            var route = '';
+            var msg = '';
+            if (route == "Msg") { alert(msg); }
+
+            
+            $('form#login-form li[id=loginli1]').click(function () {
+                $('form#login-form li[id=loginli1]').addClass("on");
+                $('form#login-form li[id=loginli2]').removeClass("on");
+                $('form#login-form input[id=rdo_ssn]').prop("checked", "checked");
+                $('form#login-form div#div-ssn').show();
+                $('form#login-form div#div-entrano').hide();
+            });
+
+            
+            $('form#login-form li[id=loginli2]').click(function () {
+                $('form#login-form li[id=loginli1]').removeClass("on");
+                $('form#login-form li[id=loginli2]').addClass("on");
+                $('form#login-form input[id=rdo_entrano]').prop("checked", "checked");
+                $('form#login-form div#div-ssn').hide();
+                $('form#login-form div#div-entrano').show();
+            });
+
+            $('.numeric').numeric({
+                allowMinus: false,
+                allowThouSep: false,
+                allowDecSep: false
+            });
+
+            
+            $('form#login-form input#rdo_ssn').click(function () {
+                $('form#login-form div#div-ssn').show();
+                $('form#login-form div#div-entrano').hide();
+            });
+
+            
+            $('form#login-form input#rdo_entrano').click(function () {
+                $('form#login-form div#div-ssn').hide();
+                $('form#login-form div#div-entrano').show();
+            });
+
+            $('form#login-form input[name=logintype]').click(function () {
+                $('form#login-form input[name=LoginType]').val($(this).val());                
+            });
+
+            
+            $('form#login-form select[name=EntraYear]').change(function () {
+                $('form#login-form select[name=Select_TypeSDiv] option').not('[value=""]').remove();
+
+                if (!$(this).val().isBlank()) {
+                    var param = {
+                        EntraYear: $(this).val()
+                    };
+                    $.post('./GetLoginSelect_TypeSDivList', param, function (data, textStatus, jqXHR) {
+                        if (data.length > 0) {
+                            $.each(data, function (index, list) {
+                                $('form#login-form select[name=Select_TypeSDiv]').append('<option value="' + data[index].Value + '">' + data[index].Text + '</option>');
+                            });
+                        }
+                    }, 'json')
+                    .fail(function (jqXHR, textStatus, errorThrown) {
+                        alert(errorThrown);
+                    })
+                    .always(function () {
+
+                    });
+                }
+
+                $('form#login-form select[name=Select_TypeSDiv]').change();
+                return;
+            }).trigger('change');
+
+
+            
+            $('form#login-form select[name=Select_TypeSDiv]').change(function () {
+                if (!$(this).val().isBlank()) {
+                    var val = $(this).val().split(":");
+                    if (val.length == 3) {
+                        $('form#login-form input[name=TypeCode]').val(val[0]);
+                        $('form#login-form input[name=TypeSCode]').val(val[1]);
+                        $('form#login-form input[name=TypeSDiv]').val(val[2]);
+                    }
+                    else {
+                        alert('모집시기/전형유형 값이 없습니다.\n\n페이지 새로고침 후 다시 시도해 주세요.');
+                    }
+                }
+            }).trigger('change');
+
+            // Enter Key
+            //$('form#login-form input:text').keypress(function (e) {
+            //    if (e.keycode == 13) { $('form#login-form').submit(); }
+            //});
+
+            $('form#login-form input').keypress(function (e) {
+                var code = (e.keyCode ? e.keyCode : e.which);
+                if (code == 13) { //Enter keycode
+                    $('form#login-form ').submit();
+                }
+            });
+
+
+            $('form#login-form a#btnLogin').click(function (e) {
+                e.preventDefault();
+                $('form#login-form').submit();
+            });
+
+            $('form#login-form').submit(function () {
+                if ($('form#login-form select[name=EntraYear]').val().isBlank()) {
+                    alert('모집년도를 선택해 주세요.');
+                    $('form#login-form select[name=EntraYear]').focus();
+                    return false;
+                }
+
+                if ($('form#login-form input[name=TypeSDiv]').val().isBlank()) {
+                    alert(messageResource.createmsg('kr', 'selectError', ['전형유형을']));
+                    return false;
+                }
+
+                if (!$('form#login-form input[name=logintype]').is(":checked")) {
+                    alert(messageResource.createmsg('kr', 'selectError', ['로그인 타입을']));
+                    return false;
+                }
+
+                if ($('form#login-form input[name=KName]').val().isBlank()) {
+                    alert('한글이름을 입력해 주세요.');
+                    $('form#login-form input[name=KName]').focus();
+                    return false;
+                }
+
+                if ($('form#login-form input[name=logintype]:checked').val() == 'ssn') {
+                    if ($('form#login-form input[name=Ssn1]').val().isBlank() && $('form#login-form input[name=Ssn2]').val().isBlank()) {
+                        alert('주민등록번호를 입력해 주세요.');
+                        $('form#login-form input[name=Ssn1]').focus();
+                        return false;
+                    }
+
+                    //if (!($('form#login-form input[name=Ssn1]').val() + $('form#login-form input[name=Ssn2]').val()).toString().isJumin()) {
+                    //    alert(messageResource.createmsg('kr', 'typeError', ['주민번호']));
+                    //    return false;
+                    //}
+                } else if ($('form#login-form input[name=logintype]:checked').val() == 'entrano') {
+                    if ($('form#login-form input[name=EntraNo]').val().isBlank()) {
+                        alert('수험번호를 입력해 주세요.');
+                        $('form#login-form input[name=EntraNo]').focus();
+                        return false;
+                    }
+                }
+
+                if ($('form#login-form input[name=User_Pw]').val().isBlank()) {
+                    alert('비밀번호를 입력해 주세요.');
+                    $('form#login-form input[name=User_Pw]').focus();
+                    return false;
+                }
+
+                $.post('./Login', $(this).serialize(), function (data, textStatus, jqXHR) {
+                    if (data.Result == '0') {
+                        location.href = data.BackUrl;
+                    } else {
+                        alert(data.ResultMessage)
+                    }
+                }, 'json')
+                .fail(function (jqXHR, textStatus, errorThrown) {
+                    alert(errorThrown);
+                })
+                .always(function () {
+
+                });
+
+                return false;
+            });
+
+            
+            $('#btn-pwd-find').click(function () {
+                document.location.href = '/UnivApply/UnivApply/PwdFind';
+            });
+
+        });
+        // ]]>
+    </script>
+
+</head>
+<body>
+<div class="wrap">
+    <!-- 헤더 / ST -->
+    <div class="header">
+
+
+<p class="skip"><a href="#content">메뉴 건너뛰기 ▼</a></p>
+        
+<h1 class="logo_01"><a href="/UnivApply/" title="메인페이지"><span>카이스트 로고</span></a></h1>
+        
+<h2 class="hidden">사이트 바로가기</h2>
+<div class="shortcut">
+    <div class="mlayout">
+    <ul>
+        <li><a href="/univapply/" title="메인페이지" >Home</a></li>
+        <li><a href="http://www.kaist.ac.kr/html/kr/index.html" title="카이스트 대표홈페이지" target="_blank">KAIST</a></li>
+        <li><a href="http://admission.kaist.ac.kr/undergraduate/" title="입학정보 홈페이지" target="_blank">입학정보</a></li>
+            <li><a href="/UnivApply/UnivApply/Login" title="로그인">로그인</a></li>
+    </ul>
+    </div>
+</div>
+        
+<h2 class="hidden">메인메뉴</h2>
+<div class="gnb mlayout">
+    
+    <a href="/mainmenu" title="메인메뉴열기닫기"><span>메인메뉴 열기/닫기<i></i><i></i><i></i></span></a>
+    <ul class="gnb-list">
+        <li class="active">
+            <a href="/UnivApply/UnivApply/Schedule" title="지원서작성">지원서작성</a>
+        </li>
+        <li>
+            <a href="/UnivApply/UnivManagement/WriteConfirm" title="마이페이지">마이페이지</a> 
+        </li>
+        <li>
+            <a href="/UnivApply/UnivDocument/DocumentConfirm" title="제출서류관리">제출서류관리</a> 
+        </li>
+        <li>
+            <a href="/UnivApply/UnivSuccess/SuccessConfirm" title="합격자발표">합격자발표</a>
+        </li>
+        <li>
+            <a href="/UnivApply/UnivSuccessDocument/SuccessDocumentConfirm" title="최종합격자제출서류">최종합격자제출서류</a> 
+        </li>
+		<li class="login_out">
+			<ul>
+                    <li><a href="/UnivApply/UnivApply/Login" title="로그인">로그인</a></li>
+			</ul>
+		</li>
+    </ul>
+</div>
+
+
+
+
+
+
+
+    </div>
+    <!-- 헤더 / END -->
+
+    <!-- 센터 / ST -->
+    <div class="container">
+        <div class="navi">
+            <h2 class="hidden">현재위치</h2>
+            
+<ul>
+    <li class="home">Home</li>
+    <li>&gt;</li>
+    <li>로그인</li>
+</ul>
+
+        </div>
+        
+        <!-- 컨텐츠 / ST -->
+        <div class="content">
+            
+  
+<div id="content" class="con_wrap">
+<form action="/UnivApply/UnivApply/Login" id="login-form" method="post"><input id="BackUrl" name="BackUrl" type="hidden" value="" /><input id="TypeCode" name="TypeCode" type="hidden" value="" /><input id="TypeSCode" name="TypeSCode" type="hidden" value="" /><input id="TypeSDiv" name="TypeSDiv" type="hidden" value="" />		<div class="login_title"><div class="login_img03">로그인</div></div>
+        <div class="login_cs">
+            <div class="logintype1 sky01">
+            </div>
+            <div class="logintype_s01">
+                <ul class="tab01">
+					<li class="on" id="loginli1"><input type="radio" id="rdo_ssn" name="logintype" class="radio_01" value="ssn" checked="checked" style="display:none" /><label for="rdo_ssn">주민등록번호</label></li>
+					<li id="loginli2"><input type="radio" id="rdo_entrano" name="logintype" class="radio_01" value="entrano" style="display:none;" /><label for="rdo_entrano">수험번호</label></li>
+				</ul>     
+            </div>
+            <div class="logintype2">
+                <div class="mb5"><label for="EntraYear" class="label01">* 모집년도</label><select class="sctbx wi65p" id="EntraYear" name="EntraYear"><option value="">:::모집년도선택:::</option>
+<option selected="selected" value="2019">2019학년도</option>
+<option value="2018">2018학년도</option>
+</select></div>
+                
+                <div class="mb5"><label for="Select_TypeSDiv" class="label01">* 전형유형</label><select id="Select_TypeSDiv" name="Select_TypeSDiv" class="sctbx wi65p"><option value="">:::전형유형선택:::</option></select> </div>
+				<div class="mb5"><label for="KName" class="label01">* 한글이름</label><input class="ipt_txt wi65p" id="KName" name="KName" tabindex="1" type="text" value="" /></div>
+                <div class="mb5" id="div-ssn"><label for="Ssn1" class="label01">* 주민등록번호</label><input class="ipt_txt wi30p numeric" id="Ssn1" maxlength="6" name="Ssn1" tabindex="2" type="text" value="" />
+					<span> - </span>
+					<input class="ipt_txt wi30p numeric" id="Ssn2" maxlength="7" name="Ssn2" tabindex="3" title="password" type="password" value="" />
+                </div>
+                <div class="mb5" id="div-entrano" style="display:none;"><label for="EntraNo" class="label01">* 수험번호</label><input class="ipt_txt wi65p" id="EntraNo" name="EntraNo" tabindex="4" type="text" value="" /></div>
+                <div class="mb5"><label for="User_Pw" class="label01">* 비밀번호</label><input class="ipt_pw wi65p" id="User_Pw" name="User_Pw" tabindex="5" type="password" value="" /></div>
+            </div>
+            <div class="btn_login"><a href="/UnivApply/UnivApply/Login" id="btnLogin" title="로그인">Login</a></div>
+        </div>
+</form>
+    <div class="login_cs">
+        <div class="logintype1">
+            <div class="mb5 mr20 tr">
+                비밀번호를 잊으셨나요?
+                <input type="button" id="btn-pwd-find" value="비밀번호찾기" class="btn30 darkorange" style="width:100px" />
+            </div>
+        </div>
+    </div>
+ </div>
+
+
+        </div>
+        <!-- 컨텐츠 / ST -->
+    </div>
+
+    <div class="footer">
+<h2 class="hidden">사이트정보</h2>
+<div class="info_01">
+    <a href="http://www.kaist.ac.kr/html/kr/kaist/kaist_010506.html" target="_blank">개인정보처리방침</a> | <a href="http://www.kaist.ac.kr/html/kr/guide/guide_0704.html" target="_blank">E-mail주소집단수집거부</a>
+    <address>
+        <p><strong>우) 34141</strong> 대전광역시 유성구 대학로 291 KAIST, 입학전형팀 <strong>Tel</strong>: 042)350-2141~7 <strong>Fax</strong>: 042)350-2420 <strong>E-mail</strong>: <a href="mailto:admission@kaist.ac.kr">admission@kaist.ac.kr</a></p>
+    </address>
+    <p class="mt5">Copyright (c) 2014 by KAIST Office of Admissions. All right reserved.</p>
+    <h3 class="hidden">관련사이트</h3>
+</div>
+    </div>
+</div>
+</body>
+</html>
