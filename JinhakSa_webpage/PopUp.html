@@ -1,0 +1,51 @@
+<!-- EXAMPLE(http://apply.jinhakapply.com/PopUp/pop_20180831) -->
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="ko">
+
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name="keyword" content="" />
+		<title>진학사 원서접수</title>
+		<link rel="stylesheet" href="/Content/WebSite/Site.css" type="text/css" />
+		<script>
+		//PRETTY Interesting FUnctions.
+			function setCookie( name, value, expiredays )//sets the COOKIE!!!(Yum.)
+			{
+				var today = new Date();
+				today.setDate( today.getDate() + expiredays );
+				document.cookie = name + "=" + escape( value ) + "; path=/; expires=" + today.toGMTString() + ";";
+			}
+
+			function closeWin() {//Called when "Don't show this for the day" is checked. => Sends response to the Serer??
+				setCookie( "pop20180831", "done" ,1 );
+				self.close();
+			}
+		//PRETTY Interesting FUnctions.
+		</script>
+	</head>
+
+	<body id="popup" class="main_notice type2">
+		<!-- 495 x 615 -->
+		<div id="popContents">
+			<p class="tac">
+				<img src="http://image.jinhakapply.com/applybank/commapply/popup/popup_20180831_2.gif" usemap="#Map" alt="2019학년도 수시 대입전형자료(학교생활기록부, 검정고시) 온라인 제공 및 증명서 발급 안내. 학교생활기록부 발급이 필요한 경우 대입 수시 원서접수기간[2018.9.10(월)∼2018.9.14(금)]에는 학교생활기록부 발급량이 증가하여 발급 서비스가 지연될 수 있으니 원서접수 기간 전 또는 업무시간 외(9시 이전, 18시 이후)에 발급 받으시기 바랍니다." />	
+			</p>
+			<p class="tac">
+				<a href="BLA BLA" target="_blank"><img src="http://image.jinhakapply.com/applybank/commapply/popup/popup_20180831_btn.gif" alt="자세히 보기" /></a>
+			</p>
+		</div>
+		<div id="popFooter" class="close">
+			<p>
+				<input type="checkbox"  name="popup_today" onclick="closeWin()" id="popup_today" />
+				오늘 하루 보지 않기
+			</p>
+			<a href="#" onclick="window.close();" style="cursor:pointer;" class="pop_btm_close">[닫기]</a>
+		</div>
+		<map name="Map">
+			<area shape="rect" coords="280,404,385,419" href="https://www.neis.go.kr/" target="_blank">
+		</map>
+	</body>
+
+</html>
