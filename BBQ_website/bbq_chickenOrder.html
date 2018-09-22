@@ -1,0 +1,1039 @@
+<!--
+Original URL : https://www.bbq.co.kr/page/menu/orderStep2.asp
+Copied by : Junwoo HWANG(2018 / 09 / 22)
+
+Interesting Points
+1) Phone identification. This is really fun. And also how the button's text changes when I get verified, that' just cool.
+
+2) This damn page didn't let me order a specific 'Hot-Sauce Chicken' called "MARA Hot Chicken". I was frustrated, I was keep getting '404 bad request' error. Damn, why can't i get my chicken? I ended accidentally ordering 'Gold-Olive-Chicken', for f* sake.
+-->
+
+
+<!DOCTYPE html>
+<html lang="ko-KR">
+  <head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="naver-site-verification" content="ac71cd6669c00a4de0a4f6a54160ce318184010b"/>
+	<meta name="description" content="치킨 프랜차이즈, 22년 역사 BBQ 안전창업, 건강한 올리브유, 온라인 주문" />
+	<link rel="canonical" href="https://www.bbq.co.kr">
+	<meta property="og:type" content="website">
+	<meta property="og:title" content="BBQ 치킨">
+	<meta property="og:description" content="치킨 프랜차이즈, 22년 역사 BBQ 안전창업, 건강한 올리브유, 온라인 주문">
+	<meta property="og:image" content="https://www.bbq.co.kr/imgs/common/logo_top.png">
+	<meta property="og:url" content="https://www.bbq.co.kr">
+    <title>BBQ 홈페이지</title>
+    <link rel="stylesheet" href="/lib/normalize.css">
+    <link rel="stylesheet" href="/css/style-ver04.css">
+    <link rel="stylesheet" href="/css/common.css">
+    
+	<script type="text/javascript" src="/js/jquery-1.11.0.min.js"></script>
+    <script type="text/javascript" src="/js/jquery-migrate-1.2.1.min.js"></script>
+	<script type="text/javascript" src="/js/jquery.min.js"></script>
+	<script type="text/javascript" src="/js/jquery-ui.min.js"></script>
+	<script type="text/javascript" src="/js/design.js"></script>
+	<script type="text/javascript" src="/js/jquery.bpopup.min.js"></script><!-- bpopup -->
+	<script type="text/javascript" src="/js/order.js?ver=1.0"></script><!-- 주문 -->
+	<script type="text/javascript" src="/js/utils.js"></script><!-- 유틸리티 -->
+	<script type="text/javascript" src="/js/popupLayer.js"></script><!-- 레이어팝업 -->
+	<script type="text/javascript" src="/js/jquery.carouFredSel-6.2.1-packed.js"></script>
+	<script type="text/javascript" src="/js/camping.js"></script>
+	    <!-- slick-->
+    <script type="text/javascript" src="/lib/slick/slick.min.js"></script>
+    <!-- custom script-->
+    <script type="text/javascript" src="/js/index.js"></script>
+
+<script type="text/javascript">
+<!--
+function popb(){
+
+	$("#log").text("로그인");
+	if($("#log").text() == "로그아웃") {
+		alert("세션이 종료되어 다시 접속하여 주시기 바랍니다.");
+		location.replace("/");
+	}
+	else {
+		var login = window.open('/member/pop_login.asp','BBQ_LOGIN','width=560, height=670, scrollbars=no');
+		login.focus();
+	}
+
+}
+//->
+</script>
+
+<style type="text/css">
+	.coupon_layer, .cart_layer, .menu_Detail,.msg_layer,.privacy_policy,.email_denial,.member_terms, .cart_side_layer {display:none;}
+</style>
+
+  </head>
+  <body>
+
+<script type="text/javascript">
+	$(function(){
+		var tip = $('.QuickMenu').position().top;
+		$(window).scroll(function(){
+			var top = $(this).scrollTop();
+			$('.QuickMenu').stop().animate({'top':top < tip? tip : top + tip})
+		});
+	});
+</script>
+<!-- 퀵바 -/->
+<div class="QuickMenu">
+<ul>
+	<li class="QuickBasket"  onclick="Order.Cart()" style="cursor:pointer"><span id="cart_Coounter">0</span><img src="/imgs/sub/quick_icon_1.png" alt="장바구니"/><br />장바구니</li>
+	<li  style="cursor:pointer"><img src="/imgs/sub/quick_icon_2.png" alt="E-쿠폰" onclick="Order.ECoupon()" /><br />E-쿠폰</li>
+	<li class="QuickTel"><img src="/imgs/sub/quick_icon_3.png" alt="1588-9282" /><br /><span>1588<br />9282</span></li>
+	<a href="https://www.bbq.co.kr/page/start/start-consulting-03-calculator.asp" target="_blank"><li class="cha_inqu" style="color:#fff; background:#c82135;"><img src="/imgs/sub/cha_inqu.jpg" alt="창업상담" /><br />창업상담</li></a>
+</ul>
+</div>
+<!-- 퀵바 -->
+
+<!-- 퀵바SBS수퍼콘서트 -->
+<div class="QuickMenu">
+<ul>
+
+	<li><a href="http://bbqevent.co.kr/" target="_blank"><img src="/imgs/sub/quick_ssc_20180901.png" alt="SBS 슈퍼콘서트" width="238px" height="auto"/></a></li>
+
+	
+</ul>
+</div>
+<!-- 퀵바 -->
+
+
+<!-- SBS슈퍼콘서트 -->
+<div style="background:#231d43; text-align:center;"><a href="http://bbqevent.co.kr/" target="_blank"><img src="../../imgs/sbs_top_banner_20180901.jpg" alt=""></a></div>
+<!--//SBS슈퍼콘서트 -->
+
+
+
+  <iframe name="ifrm" style="display:none"></iframe>
+    <div class="section">
+      <div class="section-content">
+        <!-- header-->
+        <div class="header">
+          <!-- logo--><a href="/"><img class="header-logo" src="../../imgs/header-logo.png" alt=""></a>
+          <div class="header-menu">
+            <!-- links-->
+            <div class="header-links">
+              <!-- 주문 관련 라우트에서는 '온라인 주문' 링크에 is-active 클래스를, 창업 관련 메뉴에서는 '창업 안내' 링크에 is-active 클래스를 동적으로 추가합니다.-->
+		<a class="is-active" href="/page/order/menu-list.asp#menu-list">온라인 주문</a>
+		<a href="/page/brand/story.asp">브랜드</a>
+		<a href="../../page/start/start-guide-01-step.asp">창업 안내</a>
+<!-- 2018.08.22 인사전략팀 김보경 과장 추가 요청 -->
+		<a href="https://bbq.recruiter.co.kr" target="_blank">인재 채용</a>
+		<a href="../../page/etc/faq.asp">CUSTOMER CENTER</a>
+            </div>
+            <!-- navMenu-->
+            <div class="header-navMenuWrap">
+              <div class="header-navMenu">
+
+<a class="header-navMenuItem" href="#" onclick="popb();">로그인</a><a class="header-navMenuItem" href="https://onepass.genesiskorea.co.kr/agree.asp?site=BBQ">회원가입</a>
+
+
+                
+                <!-- 로그인 후에도 유지되는 메뉴입니다--><a class="header-navMenuItem" href="javascript:;" onclick="Order.Cart()">장바구니</a><a class="header-navMenuItem" href="javascript:;" onclick="Order.ECoupon()">e-쿠폰</a>
+<a class="header-navMenuItem" href="/page/mypage/order_list_nonmember.asp">주문조회</a>
+
+                <!-- end of section header-->
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+
+	<!-- e-쿠폰 팝업 { -->
+	<div id="coupon_layer" class="coupon_layer">
+		<div class="E_coupon_wrap">
+			<div class="E_coupon_left"><img src="../../imgs/sub/e-coupon_img_20180326.jpg" alt="광고이미지" /></div>
+			<div class="E_coupon_right">
+				<div class="E_coupon_close btn_close2"  id="close2"><a href="#"><img src="../../imgs/sub/orderAdd_close.png" alt="닫기버튼" /></a></div>
+				<form id="frmCoupon" name="frmCoupon" action="/page/menu/ecoupon_ajax.asp" target="ifrm">
+				<input name="pid" type="hidden" value="P684075716" />
+				<div class="E_coupon_right_titleSummary"><span>E-쿠폰</span> 코드를<br />입력하여 주세요.</div>
+				<div class="E_coupon_inputBox"><label for="ecouponCode"><input type="text" name="txtPIN" class="E_coupon_input" id="ecouponCode" /></label></div>
+				<div class="E_coupon_txt">
+					<ul>
+						<li><span class="c0 b">쿠폰 사용으로 구매 시 주문취소가 불가능합니다.</span><br />이용에 참고하여 주세요. </li>
+						<li><span class="c0 b">알파벳 ( I ) => 숫자 ( 1 ), 알파벳 ( O ) => 숫자 ( 0 ) 로</span><br />정확히 확인 후 입력하시기 바랍니다.</li>
+					</ul>
+				</div>
+				<div class="E_coupon_Btn" onclick="Order.Search_Pin();">확인</div>
+				</form>
+			</div>
+		</div>
+	</div>
+	<!-- } e-쿠폰 팝업 -->
+
+
+	<!-- 장바구니 팝업 { -->
+	<div id="cart_layer" class="cart_layer">
+		<div class="basket_container">
+        	
+        	<div class="basket_ttl"><span></span>장바구니</div>
+            
+            <div class="basketLeft">
+            	<div class="basketLeft_wrap" id="cart_item">
+                    <div class="basket_img"></div>
+                    <ul>
+                        <li><span class="basket_Nocheck">1</span> <span class="basket_plus btn_plus">+</span> <span class="basket_minus btn_minus">-</span></li>
+                        <li class="price tr pad5t">0원</li>
+                    </ul>
+                     <div class="basket_select">
+                    </div>
+                </div><!-- basketLeft_wrap -->
+            </div>
+            <div class="basketRight">
+            	<div class="basket_close btn_close2" id="close2"><a href="/"><img src="../../imgs/sub/orderAdd_close.png" alt="닫기버튼" /></a></div>
+                <div class="basketList cartPrice" id="cartPrice">
+                	<ul>
+                    	<li>주문금액<span>0원</span></li>
+                        <li>할인금액<span>0원</span></li>
+                        <li class="b">결제금액<span class="price">0원</span></li>
+                    </ul>
+                </div>
+                <button class="basketBtn" name="장바구니 버튼" onclick="Order.View_side_Basket();">주문하기</button>
+            </div>
+		</div>
+	</div>
+	<!-- } 장바구니 팝업 -->
+
+	<!-- 사이드메뉴 팝업 { -->
+	<div id="cart_side_layer" class="cart_side_layer">
+		<div class="basket_container">
+        	
+        	<div class="basket_ttl"><span></span>사이드메뉴</div>
+            
+            <div class="basketLeft">
+            	<div class="basketLeft_wrap" id="cart_side_item">
+				<div class="cate_tlt">음료</div>
+                    <div class="basket_img"></div>
+                    <ul>
+                        <li><span class="basket_Nocheck">1</span> <span class="basket_plus btn_plus">+</span> <span class="basket_minus btn_minus">-</span></li>
+                        <li class="price tr pad5t">0원</li>
+                    </ul>
+                     <div class="basket_select">
+                    </div>
+                </div><!-- basketLeft_wrap -->
+            </div>
+            <div class="basketRight">
+            	<div class="basket_close btn_close2" id="close2"><a href="#"><img src="../../imgs/sub/orderAdd_close.png" alt="닫기버튼" /></a></div>
+                <div class="basketList cartPrice" id="cartPrice_side">
+                	<ul>
+                    	<li>주문금액<span>0원</span></li>
+                        <li>할인금액<span>0원</span></li>
+						<li>추가금액<span>0원</span></li>
+                        <li class="b">결제금액<span class="price">0원</span></li>
+                    </ul>
+                </div>
+                <button class="basketBtn" name="장바구니 버튼" onclick="location.href='/page/menu/orderStep1.asp'">함께주문</button>
+            </div>
+		</div>
+	</div>
+	<!-- } 사이드메뉴 팝업 -->
+
+	<!-- 메뉴내용 팝업 { -->
+	<div id="menu_Detail" class="menu_Detail">
+	</div>
+	<!-- } 메뉴내용 팝업 -->
+
+
+	<!-- 온라인 주문 시간 팝업 { -->
+	<div id="msg_layer" class="msg_layer">
+		<div class="ErrorMessage">
+			<div class="ErrorMessage_conts">
+				<div class="ErrorMessage_txt" id="msg_pop_content">온라인 주문 가능한 시간은<br /><span class="b cred">오전 11시 ~ 저녁 11시까지</span> 입니다.</div>
+				<div class="ErrorBtn"><a href="/">확인</a></div>
+		   </div>
+		</div>
+	</div>
+	<!-- 온라인 주문 시간 팝업 { -->
+<script language="javascript">
+	$(document).ready(function() {
+	
+	});
+</script>
+	<div class="alert_content">
+		<div style="overflow:hidden;">
+		<p id="alertMsg"></p>
+		<a class="alert_ok" onclick="$('.alert_content').css({'opacity': 0, 'pointer-events': 'none'});" style="cursor:pointer;">확인</a>
+		<!-- alert 끝 -->
+		</div>
+	</div>
+
+    <!-- 메뉴 탭 메뉴-->
+    <div class="section section--startNavTabLv2">        
+        <div class="section-content">
+            <!-- 섹션 타이틀-->
+            <div class="contentHead">
+                <h1 class="contentHead-text">온라인 주문</h1>
+                <div class="contentHead-breadCrumbs"><span>홈</span><span>온라인 주문</span><span>배송지정보 확인</span></div>
+            </div>
+            <!-- 이미지와 섹션 헤딩 아래에 위치하는 슬로건과 이미지가 포함된 흰색 배경의 패널-->
+            
+        	<!-- 서브타이틀-->
+            <div class="conteHeadsubTitle">메뉴</div>
+            <form name="frmContent" action="Send_Order.asp" target="ifrmExec">
+			<input type="hidden" id="tot_order_amt" />
+			<input type="hidden" id="tot_amt" />
+			<input type="hidden" name="TEMP_ID" id="TEMP_ID" value="P6840757161537614941" />
+            <input type=hidden name="DEL_SEQ" value="2257447" />
+            <input type=hidden name="ORDER_ITEM" id="order_item" value=""/>
+            <table class="startTable-table">
+            <colgroup> <col style="width:40%;"> <col style="width:*;"> <col style="width:20%;"> </colgroup>
+            <thead>
+                <tr>
+                    <th>상품명</th>
+                    <th>수량</th>
+                    <th>가격</th>
+                </tr>
+			</thead>
+			<tbody id="item_list" name="item_list">
+                <tr>
+                	<td></td>
+                    <td></td>
+                    <td class="price"></td>
+                </tr>
+            </tbody>
+			</table>
+            
+            <ul class="gray_bullet">
+            	<li>결제 진행전에 선택하신 상품명, 수량 및 가격이 정확한지 확인해 주세요.</li>
+				<li>비회원의 경우 장바구니에 담긴 상품은 브라우저 종료 시 자동으로 삭제되오니, 상품 리스트를 보관하시려면 회원가입 후 장바구니에 보관하여 주시기 바랍니다.</li>
+            </ul>
+            
+            <div class="gap30"></div>
+            <input type=hidden name="item_list" />
+            <!-- 서브타이틀 배송지-->
+            <div class="conteHeadsubTitle">배송지</div>            
+            <div class="BoxStyle_01">
+                <ul class="bullet_gray">
+                    <li><span class="b c0">주소</span> :    부산 북구 금곡대로 268 화명동대림타운201동 1204호</li>
+                </ul>
+            </div>
+            
+            <div class="gap30"></div>
+            
+            <!-- 서브타이틀 배달매장-->
+            <div class="conteHeadsubTitle">배달매장</div>            
+            <div class="BoxStyle_01">
+                <ul class="bullet_gray">
+                    <li><span class="b c0">매장명</span> : 부산화명신도시점 / <span class="cred">051-332-9981</span></li>
+                </ul>
+            </div>
+            
+            <div class="gap30"></div>
+            
+            <!-- 서브타이틀 주문자 정보 -->
+            <div class="conteHeadsubTitle">주문자 정보</div>
+
+                <input type="hidden" name="phone_num">
+                <input type="hidden" name="phone_date">
+                <input type="hidden" name="confirmPhoneNo">
+                <input type="hidden" name="confirm_chk">
+            <table class="startTable-table">
+            <colgroup> <col style="width:15%;"> <col style="width:*;"> </colgroup>
+            <tbody>
+                <tr>
+                    <th>이름</th>
+                    <td class="tl">비회원</td>
+                </tr>
+                <tr>
+                	<th>휴대폰 번호</th>
+                    <td class="tl">
+                    	<select name="phone1" title="phone1" class="select80" title="첫번째 휴대폰번호">
+                            <option value="010" >010</option>
+							<option value="011" >011</option>
+							<option value="016" >016</option>
+							<option value="017" >017</option>
+							<option value="018" >018</option>
+							<option value="019" >019</option>
+                        </select> - <input class="input_box"  name="phone2" maxlength="4" value="" type="text" title="두번째 휴대폰 번호" />
+                    	<input class="input_box" type="text" name="phone3" maxlength="4" value="" title="세번째 휴대폰 번호" /> <button class="blackBTN" type="button" onclick="Order.cmdPhone();return false;">인증번호 받기</button><span id="sms_alert" style="color:red"></span>
+                    </td>
+                </tr>
+                <tr>
+                	<th>인증번호</th>
+                    <td class="tl" id="td_NumerOK">
+                    	<input class="input_box" type="text" name="ConfirmNum" maxlength="7" /> <button class="blackBTN" type="button" onclick="alert('인증번호를 먼저 받으시기 바랍니다');">확인</button>
+						<input type=hidden name="hpchk" numberonly="true" />
+                    </td>
+                </tr>
+            </tbody>
+			</table>
+            
+            <div class="gap30"></div>
+ 
+            <!-- 서브타이틀 이용약관-->
+            <div class="conteHeadsubTitle">이용약관</div>
+            <div><textarea rows="15" class="textarea_css" readonly># 비회원 이용약관_(온라인주문)
+
+(주)제너시스 그룹사(이하 ‘회사’라고 한다.)와 그 패밀리 브랜드들인 제너시스 관련 계열사가 운영하는 홈페이지 서비스(이하 홈페이지)는 비회원이 (주)제너시스 그룹사와  브랜드들인 제너시스 관련 계열사에 제공한 개인정보가 보호 받을 수 있도록 통신비밀보호법, 전기통신사업법, 정보통신망이용촉진 등에 관한 법률 등 정보통신서비스 제공자가 준수해야 할 관련 법규상의 개인정보보호규정 및 정보통신부가 제정한 개인정보보호지침을 엄격히 준수합니다. 
+
+* 개인정보의 수집 및 이용목적
+1. 회사는 고객님께서 비회원으로 주문 서비스를 이용하는데 있어, 원활하게 주문의 접수 및 배달이 이루어질 수 있도록 하기 위한 최소한의 정보를 수집합니다.
+2. 회사는 재화나 용역의 주문 및 서비스 이용 등에 있어 필요한 최소한의 개인정보를 수집하며, 다음과 같은 목적을 위하여 개인정보를 수집 및 이용하고 있습니다.
+
+* 수집하는 개인정보의 항목
+이름, 주소, 전화번호, 휴대전화 : 주문 상품 배송에 대한 정확한 배송지의 확보.
+
+* 보유기간
+회사의 비회원으로 접속하여 회사에서 제공하는 서비스를 이용하는 동안 회사는 수집된 개인정보를 서비스 제공 등의 목적을 위하여 이용할 수 있습니다.</textarea></div>
+            <ul class="gray_bullet">
+                <li><span class="c0">이용약관에 동의 하십니까?</span> (동의 하지 않을 시 온라인 주문 서비스 이용이 불가능 합니다.)</li>
+				<li class="right"><span class="pdR50" style="padding-right:10px;"><input name="rdoDocu" type="radio" value="Y" class="pay"/> 동의</span><input name="rdoDocu" type="radio" value="N" class="pay" /> 동의안함</li>
+            </ul>
+
+            <div class="gap30"></div>
+            <!-- 서브타이틀 결제수단 선택-->
+            <div class="conteHeadsubTitle">결제수단 선택</div>
+            <ul class="gray_bullet">
+                <li>BBQ 매장 영업시간 11:00 ~ 24:00 (매장 상황에 따라 영업시간이 다를 수 있습니다.)</li>
+            </ul>
+            <div><input rows="2" class="textarea_css" name="ORDER_MEMO" maxlength="200"></div>
+            <ul>
+                <li>＊주류 또는 콜라1.25L가 필요하신경우 메모란에 기입하여 주세요. 후불결제로 배송 가능합니다! </li>
+                <li>&nbsp;&nbsp;&nbsp;(주의 : 각 매장마다 가격 또는 음료브랜드 종류가 다를 수 있습니다.)</li>
+            </ul>
+
+            <div class="conteHeadsubTxt">결제수단 선택</div>
+            <!-- <div class="BoxStyle_01"  id="payType" class="pay"> -->
+
+                <!-- <span><input type="radio" name="PayMethod" value="100000000000" />신용카드</span> -->
+
+                <!-- <span><input type="radio" name="PayMethod" value="DANAL_000002" /> 신용카드</span> -->
+
+				<!-- <span><input type="radio" name="PayMethod" value="DANAL_000001" />휴대폰결제</span> -->
+
+                
+                <!-- <span><input type="radio" name="PayMethod" value="000000000000" />후불(수령시 결제: 현금, 카드)
+				<select name="seklPay" id="selPay">
+					<option value="CARD">카드</option>
+					<option value="CASH">현금</option>
+				</select></span> -->
+            <!-- </div> -->
+
+			<div class="payOrder_tab">
+                <ul>
+                    <li class='fst active'><a href="javascript:;" onclick="tab_menu(0);">바로결제</a></li>
+                    <li ><a  href="javascript:;" onclick="tab_menu(1);">만나서 결제</a></li>     
+                </ul>
+            </div>
+
+			<!--탭메뉴1-->
+            <div class="payOrder_tab00 mTs" id="payType" class="pay" >
+				<ul class="payOrder_cash2">
+					<li>
+						<label>
+							<img src="../../imgs/sub/pay_card_new.png" alt="신용카드 결제" onclick="document.frmContent.PayMethod[0].checked=true;"/><br />
+							<input type="radio" name="PayMethod" value="DANAL_000002"  class="pay" /><br />신용카드
+						</label>
+					</li>
+                    <li>
+						<label>
+							<img src="../../imgs/sub/pay_phone_new.png" alt="휴대폰결제" onclick="document.frmContent.PayMethod[1].checked=true;"/><br />
+							<input type="radio" name="PayMethod" value="DANAL_000001"   class="pay"/><br />휴대폰결제
+						</label>
+					</li>
+				</ul>
+            </div>
+            
+            <!--탭메뉴2-->
+            <div class="payOrder_tab01 mTs" style='display:none'>
+				<input type="radio" name="PayMethod" value="000000000000"  style="display:none"/>
+            	<ul class="payOrder_cash2">
+                    <li>
+						<label>
+							<img src="../../imgs/sub/pay_card_new.png" alt="신용카드 결제" onclick="document.frmContent.PayMethod[2].checked=true;document.frmContent.seklPay[0].checked=true;"/>
+							<br />
+							<input type="radio" name="seklPay" id="selPay" value="CARD" onclick="document.frmContent.PayMethod[2].checked=true"  class="pay"/><br />후불(수령시 결제: 카드)
+						</label>
+					</li>
+                    <li>
+						<label>
+							<img src="../../imgs/sub/cash_icon.png" alt="현금결제" onclick="document.frmContent.PayMethod[2].checked=true;document.frmContent.seklPay[1].checked=true;"/><br />
+							<input type="radio" name="seklPay" id="selPay"  value="CASH" onclick="document.frmContent.PayMethod[2].checked=true" class="pay" /><br />후불(수령시 결제: 현금)
+						</label>
+					</li>
+                    <!-- <li><img src="../../imgs/sub/pay_card_new.png" alt="신용카드 결제" /> <span class="payOrder_plus"> + </span> <img src="../../imgs/sub/cash_icon.png" alt="현금결제" /> <br /><input type="radio" /><br />후불(수령시 결제: 현금, 카드) </li>
+ -->                </ul>
+            </div>
+
+			<!-- 18.04.23 최종결제금액 -->
+			<div class="gap30"></div>
+			<div>
+			<div class="conteHeadsubTitle">최종결제 금액</div>
+				<table class="startTable-table">
+				<colgroup><col style="width:20%;"><col style="width:*;"></colgroup>
+				<tbody>
+					<tr>
+						<th>주문 금액</th>
+						<td class="tr" style="color:#000000; font-weight:bold;" id="orderPrice2"></td>
+					</tr>
+					<tr>
+						<th>할인 금액</th>
+						<td class="tr" style="color:#000000; font-weight:bold;" id="kt_point_use2"></td>
+					</tr>
+					<tr>
+						<th>총 결제 금액</th>
+						<td class="tr" style="color:#ff0000; font-size:24px; font-weight:bold;" id="pointUsePrice2"></td>
+					</tr>
+				</table>
+			</div>
+			<!-- 최종결제금액 끝 -->
+
+            <div class="gap30"></div>
+         
+            <button class="startConsulting-submitBtn" type="button" onclick="OrderProcess();">결제하기</button>
+
+		</form>
+		<div class="gap60"></div>
+            <!-- 결제 레이어 { -->
+			<div class="pay_layer">
+			 <iframe id="ifrmPay" name="ifrmPay" src="" style="width:700px; height:500px;" ></iframe>
+			</div>
+			<!-- 결제 레이어 { -->
+        </div><!-- (e) .section--startNavTabLv2 -->
+        
+    </div><!-- (e) .section-content -->
+
+<style>
+
+/* Popup Layer */
+/*.pay_layer {display:none; position:fixed; _position:absolute; width:100%; height:100%; z-index:10000;}*/
+.open {display:block;}
+.pay_layer .bg {position:absolute; top:0; left:0; width:100%; height:100%; background:#000; opacity:.5; filter:alpha(opacity=50);}
+.layer_area {position:absolute; left:20%; top:20%; background:#fff; padding:20px; border:4px solid #ddd;}
+
+</style>
+<script language="javascript">
+jQuery(function($){
+    $('#pay_layer_open').click(function(){
+        layer_open('pay_layer'); /* 열고자 하는 것의 아이디를 입력 */
+        return false;
+    });
+/*
+    $('.pay_layer .bg').click(function(){
+        $('.pay_layer').fadeOut();
+    });
+*/
+    $('#pay_layer_close').click(function(){
+        $('.pay_layer').fadeOut();
+        return false;
+    });
+
+});
+
+function inArray(needle, haystack) {
+	var len = haystack.length;
+	for(var i=0; i<len; i++) {
+		if(haystack[i] == needle) return true;
+	}
+	return false;
+}
+
+function array_diff(array1, array2) {
+	return array1.filter(function(elm) {
+		return array2.indexOf(elm) === -1;
+	});
+}
+
+function ktPoint() {
+	var eventMenu = "";
+	var resultMsg = "";
+	var chkCnt = 0;
+	var chkMenu = "";
+
+
+	jQuery.ajaxSetup({async:false});
+	//특정메뉴만 포인트 사용하게 설정 되어 있는지 체크
+	$.get( "/page/menu/PointEventCheck.asp", {"mode" : "menu"}, function( data ) {
+		//console.log(data);
+		eventMenu = eval(data);
+		//console.log(eventMenu.length);
+	});
+
+	//특정메뉴 설정되어 있으면 선택한 메뉴가 포함되는지 확인
+	if(eventMenu.length > 0) {
+		$.get( "/page/menu/PointEventCheck.asp", {"mode" : "menuChk", "order_item" : $("#order_item").val()}, function( data ) {
+			$.each(data, function(n, value) {
+				resultMsg = value["resultMsg"];
+				chkMenu = value["chkMenu"];
+			});
+			//console.log(data);
+		}, "json");
+
+		if(resultMsg == "err") {
+			alertMsg("오류가 발생했습니다. 다시 시도해주세요.");
+			return;
+		}
+		else {
+			console.log(chkMenu, eventMenu);
+			if(array_diff(chkMenu, eventMenu).length > 0) {
+				alertMsg("포인트 사용이 안 되는 상품이 있습니다.");
+				return;
+			}
+			else {
+				$('.white_content').css({'opacity': 1, 'pointer-events': 'auto'});
+			}
+		}
+	}
+	else {
+		$('.white_content').css({'opacity': 1, 'pointer-events': 'auto'});
+	}
+}
+
+function OrderProcess() {
+	var PayMethod = $(':radio[name="PayMethod"]:checked').val();
+
+	if(PayMethod == "DANAL_000002" || PayMethod == "DANAL_000001") {
+		if("Y" != "Y") {
+			alert("바로결제가 안되는 매장입니다. ")
+			return;
+		}
+	}
+
+	Order.Complete_Order();
+}
+
+function loadGetKtPoint() {
+	if($("#tot_amt").val() < 16000) {
+		//alert("결제 금액이 15,000원 이상인 경우에만 사용 가능합니다.");
+		alertMsg("프로모션 적용 대상이 아닙니다.<br/>안내 문구를 확인하여 주세요");
+		return;
+	}
+	if(!$("#kt_no1").val() || !$("#kt_no1").val() || !$("#kt_no1").val() || !$("#kt_no1").val()) {
+		alertMsg("카드번호를 정확히 입력 해주세요");
+		return;
+	}
+	if(!$("#kt_birth").val()) {
+		alertMsg("생년월일을 입력 해주세요");
+		return;
+	}
+
+	var cardNo = $("#kt_no1").val()+$("#kt_no2").val()+$("#kt_no3").val()+$("#kt_no4").val();
+	var birthDay = $("#kt_birth").val();
+	var result = "";
+	//var totalPoint = 0;
+	var useCount = 0;
+
+	//$("#kt_point_use").prop("readonly", true);
+	//$("#kt_point_use_div").css("background-color", "grey");
+	//$("#totalPoint").val(0);
+
+	//$("#kt_point_use_btn").html("<a class='btn_toggle brown' href='#' onclick=\"pointUse('KTM_00000001');return false;\"><span class='default'>적용</span></a>");
+	$("#kt_point_use").html("");
+	$("#pointUsePrice").html("");
+	$("#kt_point").html("");
+
+
+	$.post( "./point_ajax.asp", { cardNo: cardNo, birthDay: birthDay, mode: "ktPointChk", goodsAmt: $("#tot_amt").val()}, function( data ) {
+		$.each(data, function(n, value) {
+			result = value["result"];
+			totalPoint = value["totalPoint"];
+			useCount = value["useCount"];
+		});
+
+		if(result != "ok") {
+			//alert("카드 정보가 잘못되었습니다. 다시 확인해 주세요.");
+			//alert(result);
+			alertMsg(result);
+			return;
+		}
+		else {
+			//alert(totalPoint);
+			if(totalPoint < 5000) {
+				alert("사용가능한 포인트가 없습니다.");
+				return;
+			}
+
+			//alert(useCount);
+			/*
+			$("#kt_point_use").prop("readonly", false);
+			$("#kt_point_use_div").css("background-color", "");
+			$("#totalPoint").val(totalPoint);
+			*/
+			$("#kt_point_use").html("5,000원");
+			$("#pointUsePrice").html(formatNumber($("#tot_amt").val() - 5000)+"원");
+			$("#ktPointUseBtn").show();
+			//$("#kt_point_use_div").show();
+			//$("#kt_point").html(formatNumber(totalPoint));
+
+			$(".payOrder_tab > ul > li:eq(0)").css("width", "50%");
+			$(".payOrder_tab > ul > li:eq(1)").show();
+
+			return;
+		}
+		//alert( "Data Loaded: " + data );
+	}, "json");
+}
+
+function pointUse(paymethod) {
+	/*
+	if($("#kt_point_use").prop("readonly") == true) {
+		alert("포인트 조회를 먼저 해주세요.");
+		return;
+	}
+	if($("#totalPoint").val() == 0) {
+		alert("사용가능한 포인트가 없습니다.");
+		return;
+	}
+	if(Number($("#totalPoint").val()) < Number($("#kt_point_use").val())) {
+		alert("포인트 잔액을 초과 하였습니다.");
+		return;
+	}
+	if(5000 > Number($("#kt_point_use").val())) {
+		alert("5000점 이상부터 사용가능합니다.");
+		return;
+	}
+	*/
+	var eventMenu = "";
+	var resultMsg = "";
+	var chkCnt = 0;
+	var chkMenu = "";
+
+	var cardNo = $("#kt_no1").val()+$("#kt_no2").val()+$("#kt_no3").val()+$("#kt_no4").val();
+	var birthDay = $("#kt_birth").val();
+	var result = "";
+
+	jQuery.ajaxSetup({async:false});
+	//특정메뉴만 포인트 사용하게 설정 되어 있는지 체크
+	$.get( "/page/menu/PointEventCheck.asp", {"mode" : "menu"}, function( data ) {
+		//console.log(data);
+		eventMenu = eval(data);
+		//console.log(eventMenu.length);
+	});
+
+	//특정메뉴 설정되어 있으면 선택한 메뉴가 포함되는지 확인
+	if(eventMenu.length > 0) {
+		$.get( "/page/menu/PointEventCheck.asp", {"mode" : "menuChk", "order_item" : $("#order_item").val()}, function( data ) {
+			$.each(data, function(n, value) {
+				resultMsg = value["resultMsg"];
+				chkMenu = value["chkMenu"];
+			});
+			//console.log(data);
+		}, "json");
+
+		if(resultMsg == "err") {
+			alertMsg("오류가 발생했습니다. 다시 시도해주세요.");
+			return;
+		}
+		else {
+			if(array_diff(chkMenu, eventMenu).length > 0) {
+				alertMsg("포인트 사용이 안 되는 상품이 있습니다.");
+				return;
+			}
+			else {
+				$.post( "point_ajax.asp", { cardNo: cardNo, birthDay: birthDay, payMethod: paymethod, TEMP_ID: "P6840757161537614941", goodsAmt: $("#tot_amt").val(), mode: "ktPointUse"}, function( data ) {
+					$.each(data, function(n, value) {
+						result = value["result"];
+					});
+
+					if(result != "ok") {
+						//console.log(data);
+						alertMsg(result);
+						return;
+					}
+					else {
+						//$("#kt_point_use_btn").html("<a><span class='default'>적용완료</span></a>");
+
+						document.frmContent.PayMethod[0].checked=true;
+						document.frmContent.selPay[0].checked=false;
+						document.frmContent.selPay[1].checked=false;
+						$(".payOrder_tab > ul > li:eq(0)").addClass( 'fst active' );
+						$(".payOrder_tab > ul > li:eq(0)").css("width", "100%");
+						$(".payOrder_tab > ul > li:eq(1)").removeClass( 'fst active' );
+						$(".payOrder_tab > ul > li:eq(1)").hide();
+						$(".payOrder_tab00").show();
+						$(".payOrder_tab01").hide();
+						//$("#kt_point_use_div").hide();
+						//$("#kt_point_use").html("");
+						//console.log(data);
+						//console.log(app_tr_no);
+						//$("#kt_point_use").prop("readonly", true);
+						//$("#kt_point_use_div").css("background-color", "grey");
+						$("#kt_point_use2").html("5,000원");
+						$("#pointUsePrice2").html(formatNumber($("#tot_amt").val() - 5000)+"원");
+						$("#kt_point").html("-5,000원");
+						$("#cancelPoint").show();
+						$("#ktPointUseBtn").prop("href", "javascript:alertMsg('이미 적용되었습니다.')");
+						$('.white_content').css({'opacity': 0, 'pointer-events': 'none'});
+						return;
+					}
+				}, "json");
+			}
+		}
+	}
+	else {
+		$.post( "point_ajax.asp", { cardNo: cardNo, birthDay: birthDay, payMethod: paymethod, TEMP_ID: "P6840757161537614941", goodsAmt: $("#tot_amt").val(), mode: "ktPointUse"}, function( data ) {
+			$.each(data, function(n, value) {
+				result = value["result"];
+			});
+
+			if(result != "ok") {
+				//console.log(data);
+				alertMsg(result);
+				return;
+			}
+			else {
+				//$("#kt_point_use_btn").html("<a><span class='default'>적용완료</span></a>");
+
+				document.frmContent.PayMethod[0].checked=true;
+				document.frmContent.selPay[0].checked=false;
+				document.frmContent.selPay[1].checked=false;
+				$(".payOrder_tab > ul > li:eq(0)").addClass( 'fst active' );
+				$(".payOrder_tab > ul > li:eq(0)").css("width", "100%");
+				$(".payOrder_tab > ul > li:eq(1)").removeClass( 'fst active' );
+				$(".payOrder_tab > ul > li:eq(1)").hide();
+				$(".payOrder_tab00").show();
+				$(".payOrder_tab01").hide();
+				//$("#kt_point_use_div").hide();
+				//$("#kt_point_use").html("");
+				//console.log(data);
+				//console.log(app_tr_no);
+				//$("#kt_point_use").prop("readonly", true);
+				//$("#kt_point_use_div").css("background-color", "grey");
+				$("#kt_point_use2").html("5,000원");
+				$("#pointUsePrice2").html(formatNumber($("#tot_amt").val() - 5000)+"원");
+				$("#kt_point").html("-5,000원");
+				$("#cancelPoint").show();
+				$("#ktPointUseBtn").prop("href", "javascript:alertMsg('이미 적용되었습니다.')");
+				$('.white_content').css({'opacity': 0, 'pointer-events': 'none'});
+				return;
+			}
+		}, "json");
+	}
+}
+
+
+function pointCancel() {
+	if(confirm("할인적용을 취소하시겠습니까?") == false) {
+		return;
+	}
+	var cardNo = $("#kt_no1").val()+$("#kt_no2").val()+$("#kt_no3").val()+$("#kt_no4").val();
+	var birthDay = $("#kt_birth").val();
+
+	$.post( "point_ajax.asp", { cardNo: cardNo, birthDay: birthDay, goodsAmt: $("#tot_amt").val(), TEMP_ID: "P6840757161537614941", mode: "pointCancel"}, function( data ) {
+		$.each(data, function(n, value) {
+			result = value["result"];
+		});
+
+		if(result != "ok") {
+			//console.log(data);
+			alertMsg("오류가 발생했습니다.");
+			return;
+		}
+		else {
+			$(".payOrder_tab > ul > li:eq(0)").css("width", "50%");
+			$(".payOrder_tab > ul > li:eq(1)").show();
+
+			$("#kt_point_use").html("");
+			$("#kt_point").html("");
+			$("#kt_point").html("");
+			$("#kt_point_use2").html("");
+			$("#pointUsePrice").html(formatNumber($("#tot_amt").val())+"원");
+			$("#pointUsePrice2").html(formatNumber($("#tot_amt").val())+"원");
+			$("#cancelPoint").hide();
+			$("#ktPointUseBtn").prop("href", "javascript:pointUse('KTM_00000001');");
+			return;
+		}
+	}, "json");
+}
+
+function tab_menu(gubun){
+
+	if (document.frmContent.PayMethod[0].value == "111100000000")
+	{
+		return false;
+	}
+
+	if(gubun == "0"){
+		if("Y" != "Y") {
+			return;
+		}
+		document.frmContent.PayMethod[0].checked=true;
+		document.frmContent.selPay[0].checked=false;
+		document.frmContent.selPay[1].checked=false;
+		$(".payOrder_tab > ul > li:eq(0)").addClass( 'fst active' );
+		$(".payOrder_tab > ul > li:eq(1)").removeClass( 'fst active' );
+		$(".payOrder_tab00").show();
+		$(".payOrder_tab01").hide();
+
+	}else{
+		document.frmContent.PayMethod[2].checked=true;
+		document.frmContent.selPay[0].checked=true;
+		$(".payOrder_tab > ul > li:eq(0)").removeClass( 'fst active' );
+		$(".payOrder_tab > ul > li:eq(1)").addClass( 'fst active' );
+		$(".payOrder_tab00").hide();
+		$(".payOrder_tab01").show();
+
+	}
+}
+	
+	//중복클릭
+	var doubleSubmitFlag = false;
+    function doubleSubmitCheck(){
+        if(doubleSubmitFlag){
+			//alert("중복클릭입니다. 결제가 안되시거나 다시 결제를 원하실경우 F5를 눌러 주시기 바랍니다.");
+			setTimeout('doubleSubmitCheck_Cancle()',2000); //2초후 값 자동 취소
+            return doubleSubmitFlag;
+        }else{
+            doubleSubmitFlag = true;
+            return false;
+        }
+    }
+
+	function doubleSubmitCheck_Cancle(){
+        doubleSubmitFlag = false;
+    }
+
+function alertMsg(msg) {
+	if(msg == "point_err") {
+		msg = "포인트 사용 통신오류가 발생하였습니다.<br>다시 주문 바랍니다.";
+	}
+	$('.alert_content').css({'opacity': 1, 'pointer-events': 'auto'});
+	$("#alertMsg").html(msg);
+}
+</script>
+<!-- } 결제하기 -->
+<iframe name="ifrmExec" src="" style="display:none;"></iframe>
+
+<script language="javascript">
+	Order.Confirm_Basket();
+	function ClosePaylayer() {
+		$('.pay_layer').bPopup().close();
+	}
+	$(".pay_layer").hide();
+</script>
+<!-- 무비, 스토리, 공지사항 영역-->
+    <div class="section section--brand">
+      <div class="section-content">
+        <div class="bbqBrandContainer">
+          <div class="bbqBrandItem">
+            <div class="bbqBrandItem-title"  onclick="location.href='/page/brand/picture.asp'">BBQ MOVIE</div>
+            <p class="bbqBrandItem-titleDesc"  onclick="location.href='/page/brand/picture.asp'">BBQ의 재미있는 CF를 감상해 보세요</p>
+            <div class="bbqBrandItem-contentImg" style="height:150px;"><iframe style="width:100%; heigt:100%" src="https://www.youtube.com/embed/Rav1b8PncxQ?rel=0&amp;controls=0&amp;showinfo=0&amp;autoplay=1&amp;volumn=0&amp;mute=1" frameborder="0" allowfullscreen></iframe></div>
+            <div class="bbqBrandItem-contentTitle"  onclick="location.href='/page/brand/picture.asp'">[BBQ] New 로고송 개웃ㅋㅋㅋ</div>
+            <p class="bbqBrandItem-contentDesc"  onclick="location.href='/page/brand/picture.asp'">BBQ의 새로운 로고송 춤 미쳐따리 ㅋㅋㅋㅋ</p>
+          </div>
+          <div class="bbqBrandItem" onclick="location.href='/page/brand/oliveFaq.asp'">
+            <div class="bbqBrandItem-title">황금올리브의 비밀</div>
+            <p class="bbqBrandItem-titleDesc">황금올리브의 비밀</p>
+            <div class="bbqBrandItem-contentImg" style="height:150px;background-image: url('../../imgs/bbq-brand-img-olive.png');"></div>
+            <div class="bbqBrandItem-contentTitle">황금올리브유 -</div>
+            <p class="bbqBrandItem-contentDesc">엑스트라 버진 올리브유를 원료로 하는 BBQ만의 오일</p>
+          </div>
+          <div class="bbqBrandItem" onclick="location.href='/page/brand/story.asp'">
+            <div class="bbqBrandItem-title">BBQ STORY</div>
+            <p class="bbqBrandItem-titleDesc">Best of the Best quality</p>
+            <div class="bbqBrandItem-contentImg" style="height:150px;background-image: url('../../imgs/bbq-brand-img-story.png');"></div>
+            <div class="bbqBrandItem-contentTitle">세상에서 가장 맛있는 치킨, BBQ -</div>
+            <p class="bbqBrandItem-contentDesc">최고의 맛은 물론 고객의 건강까지 생각합니다.</p>
+          </div>
+        </div>
+        <!-- 공지사항-->
+        <div class="bbqBrandHalfPanelContainer">
+          <div class="bbqBrandHalfPanelContainer-panel bbqBrandAnnounce">
+            <div class="bbqBrandAnnounce-head">
+              <div class="bbqBrandAnnounce-headText">BBQ 공지사항</div><a class="bbqBrandAnnounce-showMore" href="/page/news/notice.asp">더보기</a>
+            </div>
+			
+				<li class="bbqBrandAnnounce-row"><span class="bbqBrandAnnounce-title"><a href="/page/news/notice_view.asp?idx=276">★비비큐 치킨캠프 당첨자 안내★</a></span><div class="bbqBrandAnnounce-date">2018-09-12</div></li>
+
+				<li class="bbqBrandAnnounce-row"><span class="bbqBrandAnnounce-title"><a href="/page/news/notice_view.asp?idx=273">★비비큐 치킨캠프 당첨자 안내★</a></span><div class="bbqBrandAnnounce-date">2018-09-04</div></li>
+
+				<li class="bbqBrandAnnounce-row"><span class="bbqBrandAnnounce-title"><a href="/page/news/notice_view.asp?idx=272">★비비큐 치킨캠프 당첨자 안내★</a></span><div class="bbqBrandAnnounce-date">2018-08-23</div></li>
+
+				<li class="bbqBrandAnnounce-row"><span class="bbqBrandAnnounce-title"><a href="/page/news/notice_view.asp?idx=271">★비비큐 치킨캠프 당첨자 안내★</a></span><div class="bbqBrandAnnounce-date">2018-07-06</div></li>
+
+          </div>
+          <div class="bbqBrandHalfPanelContainer-panel bbqCsGuide">
+            <div class="bbqCsGuide-panel">
+              <div class="csGuide-title">창업문의</div>
+              <div class="csGuide-phoneNumber">080-383-9000</div>
+              <ul class="csGuide-noticeList">
+                <li>연중 무휴 상담가능</li>
+                <li>운영시간 06:00 ~ 24:00</li>
+              </ul>
+            </div>
+            <div class="bbqCsGuide-panel">
+              <div class="csGuide-title">고객센터</div>
+              <div class="csGuide-phoneNumber">080-3436-0507</div>
+              <ul class="csGuide-noticeList">
+                <li>토요일, 공휴일은 휴무</li>
+                <li>운영시간 10:00~18:00Ï</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="section section--footer">
+      <div class="section-content">
+        <div class="footerContainer">
+          <div class="footerContainer-linksContainer">
+            <!-- 메뉴 링크-->
+            <div class="footerContainer-menuLinks">
+              <div class="footerContainer-menuLinksColumn">
+                <div class="footerContainer-menuLinksColHead">브랜드스토리</div><a class="footerContainer-menuLink" href="/page/brand/story.asp">BBQ Story</a><a class="footerContainer-menuLink" href="/page/brand/oliveFaq.asp">올리브 이야기</a><a class="footerContainer-menuLink" href="/page/brand/picture.asp">영상 컨텐츠</a>
+              </div>
+              <div class="footerContainer-menuLinksColumn">
+                <div class="footerContainer-menuLinksColHead">BBQ 소식</div><a class="footerContainer-menuLink" href="/page/news/eventList.asp">이벤트</a><a class="footerContainer-menuLink" href="/page/news/notice.asp">공지사항</a>
+              </div>
+              <div class="footerContainer-menuLinksColumn">
+                <div class="footerContainer-menuLinksColHead">BBQ체험</div><a class="footerContainer-menuLink" href="/page/camp/chicken.asp">치킨캠프</a><a class="footerContainer-menuLink" href="/page/camp/camping.asp">제휴캠핑장</a>
+              </div>
+              <div class="footerContainer-menuLinksColumn">
+                <div class="footerContainer-menuLinksColHead">BBQ창업</div><a class="footerContainer-menuLink" href="/page/start/start-consulting-01-apply.asp">창업문의</a><a class="footerContainer-menuLink" href="/page/start/start-guide-01-step.asp">창업안내</a><a class="footerContainer-menuLink" href="/page/start/start-knowhow-01-story.asp">성공노하우</a><a class="footerContainer-menuLink" href="/page/start/start-type-02-cafe.asp">타입소개</a>
+              </div>
+            </div>
+            <!-- SNS link-->
+            <div class="footerContainer-snsLinks"><a class="footerContainer-snsLink footerContainer-snsLink--instagram" href="https://www.instagram.com/bbq.chicken.insta" target="blank"><span>Instagram</span></a><a class="footerContainer-snsLink footerContainer-snsLink--facebook" href="https://www.facebook.com/bbqfb" target="blank"><span>facebook</span></a><a class="footerContainer-snsLink footerContainer-snsLink--naverblog" href="http://blog.naver.com/blogbbq" target="blank"><span>네이버블로그</span></a></div>
+          </div>
+          <div class="footerContainer-familySites">
+            <div class="footerContainer-familySitesLinks"><a class="footerContainer-familySitesLink" href="http://mallbbq.co.kr/" target="blank">BBQ몰 바로가기</a><a class="footerContainer-familySitesLink" href="http://www.genesiskorea.co.kr/" target="blank">제너시스그룹</a><a class="footerContainer-familySitesLink" href="http://bbqglobal.com/gl/main.asp" target="blank">Global BBQ</a></div>
+          </div>
+          <div class="footerContainer-terms"><a class="footerContainer-termsLink" href="javascript:Order.privacy_policy()"><span>개인정보취급방침</span></a><a class="footerContainer-termsLink"  href="javascript:Order.email_denial()"><span>이메일주소무단수집거부</span></a><a class="footerContainer-termsLink"  href="javascript:Order.member_terms()"><span>이용약관</span></a></div>
+          <div class="footerContainer-companyInfo">
+            <p>서울특별시 송파구 중대로 64(문정동) 제너시스빌딩 대표자 : 공동대표 윤경주, 윤학종 </p>
+            <p><span>통신판매업신고: 2010-서울송파-1181호사업자등록번호: 207-81-43555</span><span class="footerContainer-companyInfo--right">Copyright 2015 © GENESIS BBQ. All rights reserved.</span></p>
+            <!-- end of section section--footer-->
+          </div>
+        </div>
+      </div>
+    </div>
+
+<!-- 개인정보취급방침 레이어 { -->
+<div id="privacy_policy" class="privacy_policy"></div>
+<!-- } 개인정보취급방침 레이어  -->
+
+<!-- 이메일주소무단수집거부 레이어 { -->
+<div id="email_denial" class="email_denial"></div>
+<!-- } 이메일주소무단수집거부 레이어  -->
+
+<!-- 이용약관 레이어 { -->
+<div id="member_terms" class="member_terms"></div>
+<!-- } 이용약관 레이어  -->
+
+<!-- 수탁업체리스트 레이어 { -->
+<div id="pop_privacy_policy_chainlist" class="pop_privacy_policy_chainlist"></div>
+<!-- } 수탁업체리스트 레이어  -->
+
+<!-- 공통 호출 하단 스크립트 : 모든페이지 하단 설치 -->
+<!-- PlayD TERA Log Script v1.1 -->
+<script>
+var _nSA=(function(_g,_c,_s,_p,_d,_i,_h){ 
+ if(_i.wgc!=_g){var _ck=(new Image(0,0)).src=_p+'//'+_c+'/?cookie';_i.wgc=_g;_i.wrd=(new Date().getTime());
+ var _sc=_d.createElement('script');_sc.src=_p+'//sas.nsm-corp.com/'+_s+'gc='+_g+'&rd='+_i.wrd;
+ var _sm=_d.getElementsByTagName('script')[0];_sm.parentNode.insertBefore(_sc, _sm);_i.wgd=_c;} return _i;
+})('CF1B42149318994','ngc1.nsm-corp.com','sa-w.js?',location.protocol,document,window._nSA||{},location.hostname);
+</script><noscript><img src="//ngc1.nsm-corp.com/?uid=CF1B42149318994&je=n&" border=0 width=0 height=0></noscript>
+<!-- LogAnalytics Script Install -->
+
+
+</body>
+
+</html>
