@@ -1,0 +1,746 @@
+<!--
+ORIGINAL url : https://www.ajcopy.co.kr/bbs/page.php?hid=cost
+How I found it : was just lookin' around for 견적 for 200 page 흑백-book
+Date : 2019 / 06 / 10 (Monday)
+-->
+
+<table width=98%>
+	<tr><td colspan=2>
+	<font color=red><b>※ 제작예상금액을 알고싶다면 견적계산기를 이용하세요.<br>※ 정확한 견적은 주문접수 후 문자로 알려드립니다.</b></font></td></tr>
+	</table>
+<table border=1 width=99%>
+    <!--   권수를 구하는 -->
+    <tr>
+  		<th scope="row"><label for="wr_name">제작권수</label></th>
+  		<td><input type="text" name="input1" value="" id="input1" required class="frm_input required" size="5"> 권</td>
+  	</tr>
+    
+
+
+    <!--  페이지수를 구하는 -->
+      <tr>
+    		<th scope="row"><label for="wr_name">페이지수</label></th>
+    		<td><input type="text" name="page1" value="" id="page1" required class="frm_input required" size="5"> 페이지 (1권당 페이지)</td>
+    	</tr>
+
+
+
+    <!-- 흑백,칼라를 구하는 -->
+    <!-- 흑백 = 1, 잉크젯칼라 = 2, 칼라레이저 = 3 -->
+      <tr>
+				<th scope="row"><label for="wr_name">흑백/칼라</label></th>
+				<td><table width=100%><tr><td><input type=radio  class=i_check NAME="radio3" VALUE="1" style="border:0;">흑백</td>
+             <td><input type=radio  class=i_check NAME="radio3" VALUE="2" style="border:0;">잉크젯(칼라)</td>
+             <td><input type=radio  class=i_check NAME="radio3" VALUE="3" style="border:0;">칼라레이저</td></tr></table></td>
+			</tr>
+
+
+      <!--  규격과 단양면을 구하는 -->
+      <!--  B5단면 = 1, A4단면 = 2, B4단면 = 3, A3단면 = 4 -->
+      <!--  B5양면 = 5, A4양면 = 6, B4양면 = 7, A3양면 = 8, 기타 = 0 -->
+      <tr>
+        <th scope="row"><label for="wr_name">단면/양면</label></th>
+        <td> <table width=100%><tr><td>
+			 <input type=radio class=i_check NAME="radio1" VALUE="1" style="border:0;">B5/단면</td><td>
+             <input type=radio class=i_check NAME="radio1" VALUE="2" style="border:0;">A4/단면</td><td>
+             <input type=radio class=i_check NAME="radio1" VALUE="3" style="border:0;">B4/단면</td><td>
+             <input type=radio class=i_check NAME="radio1" VALUE="4" style="border:0;">A3/단면</td><tr><td>
+             <input type=radio class=i_check NAME="radio1" VALUE="5" style="border:0;">B5/양면</td><td>
+             <input type=radio class=i_check NAME="radio1" VALUE="6" style="border:0;">A4/양면</td><td>
+             <input type=radio class=i_check NAME="radio1" VALUE="7" style="border:0;">B4/양면</td><td>
+             <input type=radio class=i_check NAME="radio1" VALUE="8" style="border:0;">A3/양면</td></tr></table></td>
+      </tr>
+
+      <!--  제본종류를 구하는.. 제본안함은 출력만 하는것임. -->
+      <!--  스프링 = 1,  와이어 = 2, 책제본 = 3, 중철 = 4, 제본안함 = 0 -->
+      <tr>
+		<th scope="row"><label for="wr_name">제본방식</label></th>
+		<td> <table width=100%><tr><td>
+		   <input type=radio class=i_check NAME="radio4" VALUE="0" style="border:0;">제본안함/기타</td><td>
+		   <input type=radio class=i_check NAME="radio4" VALUE="1" style="border:0;">스프링제본</td><td>
+		   <input type=radio class=i_check NAME="radio4" VALUE="2" style="border:0;">와이어링</td><tr><td>
+		   <input type=radio class=i_check NAME="radio4" VALUE="3" style="border:0;">책제본(흑백)</td><td>
+		   <input type=radio class=i_check NAME="radio4" VALUE="4" style="border:0;">책제본(칼라)</td>
+		   <td></td></tr></table>
+      </tr>
+
+      <!--  제본길이를 구하는.. 긴쪽 또는 짧은쪽 또는 제본안함.  제본안함은 출력만 하는것임. -->
+      <!--  넓은면 = 1, 좁은면 = 2, 제본안함 = 0 -->
+      <tr>
+		<th scope="row"><label for="wr_name">넘김방식</label></th>
+		<td> <table width=100%><tr><td>
+			<input type=radio class=i_check NAME="radio6" VALUE="0" style="border:0;">단면&출력만</td><td>
+		   <input type=radio class=i_check NAME="radio6" VALUE="1" style="border:0;">넓은면 제본</td><td>
+		   <input type=radio class=i_check NAME="radio6" VALUE="2" style="border:0;">좁은면 제본</td></tr></table></td>
+      </tr>
+</table>
+<table><tr><td height=13></td></tr></table>
+
+
+
+      <input type="button" onclick=aj_estimate() value=" 견적예상금액확인 " style="width:200px; height:35px; color:white; background-color:rgb(45,136,231); border-width:10; border-style:solid; font-size:13pt;">
+
+      <script type="text/javascript">
+      function aj_estimate()
+      {
+        var book_cnt = document.getElementById("input1").value;
+        var pg_cnt = document.getElementById("page1").value;
+        var color_chk=document.getElementsByName('radio3');
+        var sze_chk=document.getElementsByName('radio1');
+        var bind_kind=document.getElementsByName('radio4');
+        var bind_len=document.getElementsByName('radio6');
+
+          
+        if ( !book_cnt )
+        {
+            alert("제작권수를 확인해주세요");
+            return;
+        }
+          
+        if ( !pg_cnt )
+        {
+            alert("페이지수를 확인해주세요");
+            return;
+        }
+
+        // alert("권수 " + book_cnt);
+        // alert("페이지수 " + pg_cnt);
+        pg_cnt = Number(pg_cnt);
+        var rdo_cnt;
+
+          
+        rdo_cnt = 0;
+        for(var i=0 ; i<color_chk.length ; i++)
+        {
+          if(color_chk[i].checked == true)
+          {
+            // alert("칼라종류 흑백/잉크젯/레이저" + color_chk[i].value);
+            var aj_col = color_chk[i].value;
+            rdo_cnt ++;
+          }
+
+        }
+        if (rdo_cnt <= 0)
+        {
+            alert("흑백,칼라 여부를 체크하세요.");
+            return;
+        }
+
+          
+        rdo_cnt= 0;
+        for(var j=0 ; j<sze_chk.length ; j++)
+        {
+          if(sze_chk[j].checked == true)
+          {
+            // alert("사이즈 B5단면A4양면등등" + sze_chk[j].value);
+            var aj_sze = sze_chk[j].value;
+            rdo_cnt++;
+          }
+        }
+        if (rdo_cnt <= 0)
+        {
+            alert("단면/양면을 체크하세요.");
+            return;
+        }
+          
+          
+        rdo_cnt = 0;
+        for(var m=0 ; m<bind_kind.length ; m++)
+        {
+          if(bind_kind[m].checked == true)
+          {
+            // alert("제본형식1" + bind_kind[m].value);
+            var aj_bind_kind = bind_kind[m].value;
+            rdo_cnt++;
+          }
+        }
+        if (rdo_cnt <= 0)
+        {
+            alert("제본방식을 체크하세요.");
+            return;
+        }
+
+          
+        rdo_cnt = 0;  
+        for(var n=0 ; n<bind_len.length ; n++)
+        {
+          if(bind_len[n].checked == true)
+          {
+            // alert("넓은면 좁은면 제본" + bind_len[n].value);
+            var aj_bind_len = bind_len[n].value;
+            rdo_cnt++;
+          }
+        }
+        if (rdo_cnt <= 0)
+        {
+            alert("제본방향을 체크하세요.");
+            return;
+        }
+
+          
+          
+        switch (aj_col)
+        {
+            case '1'  :
+                      if(aj_sze == '1' || aj_sze == '2')
+                      {
+                        var aj_sum1 = pg_cnt * 30;
+                        // alert("출력" + aj_sum1);
+                        break;
+                      }
+                      else if(aj_sze == '3' || aj_sze == '4')
+                      {
+                        var aj_sum1 = pg_cnt * 50;
+                        // alert("출력" + aj_sum1);
+                        break;
+                      }
+                      else if(aj_sze == '5' || aj_sze == '6')
+                      {
+                        var aj_sum1 = pg_cnt * 20;
+                        // alert("출력" + aj_sum1);
+                        break;
+                      }
+                      else if(aj_sze == '7' || aj_sze == '8')
+                      {
+                        var aj_sum1 = pg_cnt * 40;
+                        // alert("출력" + aj_sum1);
+                        break;
+                      }
+                      else
+                      {
+                          var aj_sum = pg_cnt * 1;
+                          alert("다음 금액이 정확하지 않을 수 있습니다.<br>관리자에게 문의 하세요");
+                          break;
+                      }
+
+            case '2'  :
+                      if(aj_sze == '1' || aj_sze == '2')
+                      {
+                        var aj_sum1 = pg_cnt * 70;
+                        // alert("출력" + aj_sum1);
+                        break;
+                      }
+                      else if(aj_sze == '3' || aj_sze == '4')
+                      {
+                        // var aj_sum = pg_cnt * 50;
+                        alert("선택하신 내용은 작업이 가능하지 않습니다.1");
+                        break;
+                      }
+                      else if(aj_sze == '5' || aj_sze == '6')
+                      {
+                        var aj_sum1 = pg_cnt * 50;
+                        // alert("출력" + aj_sum1);
+                        break;
+                      }
+                      else if(aj_sze == '7' || aj_sze == '8')
+                      {
+                        // var aj_sum = pg_cnt * 40;
+                        alert("선택하신 내용은 작업이 가능하지 않습니다.2");
+                        break;
+                      }
+                      else
+                      {
+                          var aj_sum1 = pg_cnt * 1;
+                          alert("다음 금액이 정확하지 않을 수 있습니다.<br>관리자에게 문의 하세요");
+                          break;
+                      }
+
+            case '3'  :
+                      if(aj_sze == '1' || aj_sze == '2')
+                      {
+                          var aj_sum1 = pg_cnt * 200;
+                          // alert("출력" + aj_sum1);
+                          break;
+                        }
+                        else if(aj_sze == '3' || aj_sze == '4')
+                        {
+                          var aj_sum1 = pg_cnt * 400;
+                          // alert("출력" + aj_sum1);
+                          break;
+                        }
+                        else if(aj_sze == '5' || aj_sze == '6')
+                        {
+                          var aj_sum1 = pg_cnt * 200;
+                          // alert("출력" + aj_sum1);
+                          break;
+                        }
+                        else if(aj_sze == '7' || aj_sze == '8')
+                        {
+                          var aj_sum1 = pg_cnt * 400;
+                          // alert("출력" + aj_sum1);
+                          break;
+                        }
+                        else
+                        {
+                            var aj_sum1 = pg_cnt * 1;
+                            alert("다음 금액이 정확하지 않을 수 있습니다.<br>관리자에게 문의 하세요");
+                            break;
+                        }
+
+            default   :
+                      alert("선택하신 내용은 작업이 가능하지 않습니다.3");
+                      break;
+
+
+        }
+
+        switch(aj_bind_kind)
+        {
+          case '0'   :
+			  // 제본 안함
+                      var aj_sum2 = aj_sum1 + 0;
+                      break;
+
+          case '1'   :
+			  // 스프링제본
+                      if(pg_cnt < 100 && (aj_sze == '1' || aj_sze == '2'))
+                      {
+                        var aj_sum2 = aj_sum1 + 1500;
+                        // alert("출력+제본" + aj_sum2);
+                        break;
+                      }
+                      else if(pg_cnt < 200 && (aj_sze == '5' || aj_sze == '6'))
+                      {
+                        var aj_sum2 = aj_sum1 + 1500;
+                        // alert("출력+제본" + aj_sum2);
+                        break;
+                      }
+                      else if(pg_cnt < 200 && (aj_sze == '1' || aj_sze == '2'))
+                      {
+                        var aj_sum2 = aj_sum1 + 2000;
+                        // alert("출력+제본" + aj_sum2);
+                        break;
+                      }
+                      else if(pg_cnt < 400 && (aj_sze == '5' || aj_sze == '6'))
+                      {
+                        var aj_sum2 = aj_sum1 + 2000;
+                        // alert("출력+제본" + aj_sum2);
+                        break;
+                      }
+                      else if(pg_cnt < 300 && (aj_sze == '1' || aj_sze == '2'))
+                      {
+                        var aj_sum2 = aj_sum1 + 2500;
+                        // alert("출력+제본" + aj_sum2);
+                        break;
+                      }
+                      else if(pg_cnt < 600 && (aj_sze == '5' || aj_sze == '6'))
+                      {
+                        var aj_sum2 = aj_sum1 + 2500;
+                        // alert("출력+제본" + aj_sum2);
+                        break;
+                      }
+                      else if(pg_cnt >= 300 && (aj_sze == '1' || aj_sze == '2'))
+                      {
+                        var aj_sum2 = aj_sum1 + 3000;
+                        // alert("출력+제본" + aj_sum2);
+                        break;
+                      }
+                      else if(pg_cnt >= 600 && (aj_sze == '5' || aj_sze == '6'))
+                      {
+                        var aj_sum2 = aj_sum1 + 3000;
+                        // alert("출력+제본" + aj_sum2);
+                        break;
+                      }
+                      else if(pg_cnt < 100 && (aj_sze == '3' || aj_sze == '4'))
+                      {
+                        var aj_sum2 = aj_sum1 + 2500;
+                        // alert("출력+제본" + aj_sum2);
+                        break;
+                      }
+                      else if(pg_cnt < 200 && (aj_sze == '7' || aj_sze == '8'))
+                      {
+                        var aj_sum2 = aj_sum1 + 2500;
+                        // alert("출력+제본" + aj_sum2);
+                        break;
+                      }
+                      else if(pg_cnt < 200 && (aj_sze == '3' || aj_sze == '4'))
+                      {
+                        var aj_sum2 = aj_sum1 + 3000;
+                        // alert("출력+제본" + aj_sum2);
+                        break;
+                      }
+                      else if(pg_cnt < 400 && (aj_sze == '7' || aj_sze == '8'))
+                      {
+                        var aj_sum2 = aj_sum1 + 3000;
+                        // alert("출력+제본" + aj_sum2);
+                        break;
+                      }
+                      else if(pg_cnt < 300 && (aj_sze == '3' || aj_sze == '4'))
+                      {
+                        var aj_sum2 = aj_sum1 + 3500;
+                        // alert("출력+제본" + aj_sum2);
+                        break;
+                      }
+                      else if(pg_cnt < 600 && (aj_sze == '7' || aj_sze == '8'))
+                      {
+                        var aj_sum2 = aj_sum1 + 3500;
+                        // alert("출력+제본" + aj_sum2);
+                        break;
+                      }
+                      else if(pg_cnt >= 300 && (aj_sze == '3' || aj_sze == '4'))
+                      {
+                        var aj_sum2 = aj_sum1 + 4000;
+                        // alert("출력+제본" + aj_sum2);
+                        break;
+                      }
+                      else if(pg_cnt >= 600 && (aj_sze == '7' || aj_sze == '8'))
+                      {
+                        var aj_sum2 = aj_sum1 + 4000;
+                        // alert("출력+제본" + aj_sum2);
+                        break;
+                      }
+                      else
+                      {
+                          var aj_sum2 = aj_sum1;
+                          alert("다음 금액이 정확하지 않을 수 있습니다.<br>관리자에게 문의 하세요");
+                          break;
+                      }
+
+          case '2'   :
+			  // 와이어링 제본
+                      if(pg_cnt < 100 && (aj_sze == '1' || aj_sze == '2'))
+                      {
+                        var aj_sum2 = aj_sum1 + 2000;
+                        // alert("출력+제본" + aj_sum2);
+                        break;
+                      }
+                      else if(pg_cnt < 200 && (aj_sze == '5' || aj_sze == '6'))
+                      {
+                        var aj_sum2 = aj_sum1 + 2000;
+                        // alert("출력+제본" + aj_sum2);
+                        break;
+                      }
+                      else if(pg_cnt < 125 && (aj_sze == '1' || aj_sze == '2'))
+                      {
+                        var aj_sum2 = aj_sum1 + 2500;
+                        // alert("출력+제본" + aj_sum2);
+                        break;
+                      }
+                      else if(pg_cnt < 250 && (aj_sze == '5' || aj_sze == '6'))
+                      {
+                        var aj_sum2 = aj_sum1 + 2500;
+                        // alert("출력+제본" + aj_sum2);
+                        break;
+                      }
+                      else if(pg_cnt < 100 && (aj_sze == '3' || aj_sze == '4'))
+                      {
+                        var aj_sum2 = aj_sum1 + 3000;
+                        // alert("출력+제본" + aj_sum2);
+                        break;
+                      }
+                      else if(pg_cnt < 200 && (aj_sze == '7' || aj_sze == '8'))
+                      {
+                        var aj_sum2 = aj_sum1 + 3000;
+                        // alert("출력+제본" + aj_sum2);
+                        break;
+                      }
+                      else if(pg_cnt < 125 && (aj_sze == '3' || aj_sze == '4'))
+                      {
+                        var aj_sum2 = aj_sum1 + 3500;
+                        // alert("출력+제본" + aj_sum2);
+                        break;
+                      }
+                      else if(pg_cnt < 250 && (aj_sze == '7' || aj_sze == '8'))
+                      {
+                        var aj_sum2 = aj_sum1 + 3500;
+                        // alert("출력+제본" + aj_sum2);
+                        break;
+                      }
+                      else
+                      {
+                        var aj_sum2 = aj_sum1 + 0;
+                        alert("와이어 제본은 125장(250페이지)까지만 가능합니다. 스프링제본으로 진행됩니다. 다음 견적금액이 정확하지 않을 수 있습니다.");
+                        break;
+                      }
+
+          case '3'   :
+			  // 책제본(흑백)
+                       if(pg_cnt < 100 && (aj_sze == '1' || aj_sze == '2'))
+                      {
+                        var aj_sum2 = aj_sum1 + 2000;
+                        // alert("출력+제본" + aj_sum2);
+                        break;
+                      }
+                      else if(pg_cnt < 200 && (aj_sze == '5' || aj_sze == '6'))
+                      {
+                        var aj_sum2 = aj_sum1 + 2000;
+                        // alert("출력+제본" + aj_sum2);
+                        break;
+                      }
+                      else if(pg_cnt < 200 && (aj_sze == '1' || aj_sze == '2'))
+                      {
+                        var aj_sum2 = aj_sum1 + 2500;
+                        // alert("출력+제본" + aj_sum2);
+                        break;
+                      }
+                      else if(pg_cnt < 400 && (aj_sze == '5' || aj_sze == '6'))
+                      {
+                        var aj_sum2 = aj_sum1 + 2500;
+                        // alert("출력+제본" + aj_sum2);
+                        break;
+                      }
+                      else if(pg_cnt < 300 && (aj_sze == '1' || aj_sze == '2'))
+                      {
+                        var aj_sum2 = aj_sum1 + 3000;
+                        // alert("출력+제본" + aj_sum2);
+                        break;
+                      }
+                      else if(pg_cnt < 600 && (aj_sze == '5' || aj_sze == '6'))
+                      {
+                        var aj_sum2 = aj_sum1 + 3000;
+                        // alert("출력+제본" + aj_sum2);
+                        break;
+                      }
+                      else if(pg_cnt >= 300 && (aj_sze == '1' || aj_sze == '2'))
+                      {
+                        var aj_sum2 = aj_sum1 + 3500;
+                        // alert("출력+제본" + aj_sum2);
+                        break;
+                      }
+                      else if(pg_cnt >= 600 && (aj_sze == '5' || aj_sze == '6'))
+                      {
+                        var aj_sum2 = aj_sum1 + 3500;
+                        // alert("출력+제본" + aj_sum2);
+                        break;
+                      }
+                      else if(pg_cnt < 100 && (aj_sze == '3' || aj_sze == '4'))
+                      {
+                        var aj_sum2 = aj_sum1 + 3000;
+                        // alert("출력+제본" + aj_sum2);
+                        break;
+                      }
+                      else if(pg_cnt < 200 && (aj_sze == '7' || aj_sze == '8'))
+                      {
+                        var aj_sum2 = aj_sum1 + 3000;
+                        // alert("출력+제본" + aj_sum2);
+                        break;
+                      }
+                      else if(pg_cnt < 200 && (aj_sze == '3' || aj_sze == '4'))
+                      {
+                        var aj_sum2 = aj_sum1 + 3500;
+                        // alert("출력+제본" + aj_sum2);
+                        break;
+                      }
+                      else if(pg_cnt < 400 && (aj_sze == '7' || aj_sze == '8'))
+                      {
+                        var aj_sum2 = aj_sum1 + 3500;
+                        // alert("출력+제본" + aj_sum2);
+                        break;
+                      }
+                      else if(pg_cnt < 300 && (aj_sze == '3' || aj_sze == '4'))
+                      {
+                        var aj_sum2 = aj_sum1 + 4000;
+                        // alert("출력+제본" + aj_sum2);
+                        break;
+                      }
+                      else if(pg_cnt < 600 && (aj_sze == '7' || aj_sze == '8'))
+                      {
+                        var aj_sum2 = aj_sum1 + 4000;
+                        // alert("출력+제본" + aj_sum2);
+                        break;
+                      }
+                      else if(pg_cnt < 400 && (aj_sze == '3' || aj_sze == '4'))
+                      {
+                        var aj_sum2 = aj_sum1 + 4500;
+                        // alert("출력+제본" + aj_sum2);
+                        break;
+                      }
+                      else if(pg_cnt < 800 && (aj_sze == '7' || aj_sze == '8'))
+                      {
+                        var aj_sum2 = aj_sum1 + 4500;
+                        // alert("출력+제본" + aj_sum2);
+                        break;
+                      }
+                      else if(pg_cnt <= 500 && (aj_sze == '3' || aj_sze == '4'))
+                      {
+                        var aj_sum2 = aj_sum1 + 5000;
+                        // alert("출력+제본" + aj_sum2);
+                        break;
+                      }
+                      else if(pg_cnt <= 1000 && (aj_sze == '7' || aj_sze == '8'))
+                      {
+                        var aj_sum2 = aj_sum1 + 5000;
+                        // alert("출력+제본" + aj_sum2);
+                        break;
+                      }
+                      else
+                      {
+                          var aj_sum2 = aj_sum1 + 0;
+                          alert("다음 금액이 정확하지 않을 수 있습니다.<br>관리자에게 문의 하세요");
+                          break;
+                      }
+
+          case '4'   :
+			  // 책제본(칼라)
+                       if(pg_cnt < 100 && (aj_sze == '1' || aj_sze == '2'))
+                      {
+                        var aj_sum2 = aj_sum1 + 2500;
+                        // alert("출력+제본" + aj_sum2);
+                        break;
+                      }
+                      else if(pg_cnt < 200 && (aj_sze == '5' || aj_sze == '6'))
+                      {
+                        var aj_sum2 = aj_sum1 + 2500;
+                        // alert("출력+제본" + aj_sum2);
+                        break;
+                      }
+                      else if(pg_cnt < 200 && (aj_sze == '1' || aj_sze == '2'))
+                      {
+                        var aj_sum2 = aj_sum1 + 3000;
+                        // alert("출력+제본" + aj_sum2);
+                        break;
+                      }
+                      else if(pg_cnt < 400 && (aj_sze == '5' || aj_sze == '6'))
+                      {
+                        var aj_sum2 = aj_sum1 + 3000;
+                        // alert("출력+제본" + aj_sum2);
+                        break;
+                      }
+                      else if(pg_cnt < 300 && (aj_sze == '1' || aj_sze == '2'))
+                      {
+                        var aj_sum2 = aj_sum1 + 3500;
+                        // alert("출력+제본" + aj_sum2);
+                        break;
+                      }
+                      else if(pg_cnt < 600 && (aj_sze == '5' || aj_sze == '6'))
+                      {
+                        var aj_sum2 = aj_sum1 + 3500;
+                        // alert("출력+제본" + aj_sum2);
+                        break;
+                      }
+                      else if(pg_cnt >= 300 && (aj_sze == '1' || aj_sze == '2'))
+                      {
+                        var aj_sum2 = aj_sum1 + 4000;
+                        // alert("출력+제본" + aj_sum2);
+                        break;
+                      }
+                      else if(pg_cnt >= 600 && (aj_sze == '5' || aj_sze == '6'))
+                      {
+                        var aj_sum2 = aj_sum1 + 4000;
+                        // alert("출력+제본" + aj_sum2);
+                        break;
+                      }
+                      else if(pg_cnt < 100 && (aj_sze == '3' || aj_sze == '4'))
+                      {
+                        var aj_sum2 = aj_sum1 + 3500;
+                        // alert("출력+제본" + aj_sum2);
+                        break;
+                      }
+                      else if(pg_cnt < 200 && (aj_sze == '7' || aj_sze == '8'))
+                      {
+                        var aj_sum2 = aj_sum1 + 3500;
+                        // alert("출력+제본" + aj_sum2);
+                        break;
+                      }
+                      else if(pg_cnt < 200 && (aj_sze == '3' || aj_sze == '4'))
+                      {
+                        var aj_sum2 = aj_sum1 + 4000;
+                        // alert("출력+제본" + aj_sum2);
+                        break;
+                      }
+                      else if(pg_cnt < 400 && (aj_sze == '7' || aj_sze == '8'))
+                      {
+                        var aj_sum2 = aj_sum1 + 4000;
+                        // alert("출력+제본" + aj_sum2);
+                        break;
+                      }
+                      else if(pg_cnt < 300 && (aj_sze == '3' || aj_sze == '4'))
+                      {
+                        var aj_sum2 = aj_sum1 + 4500;
+                        // alert("출력+제본" + aj_sum2);
+                        break;
+                      }
+                      else if(pg_cnt < 600 && (aj_sze == '7' || aj_sze == '8'))
+                      {
+                        var aj_sum2 = aj_sum1 + 4500;
+                        // alert("출력+제본" + aj_sum2);
+                        break;
+                      }
+                      else if(pg_cnt < 400 && (aj_sze == '3' || aj_sze == '4'))
+                      {
+                        var aj_sum2 = aj_sum1 + 5000;
+                        // alert("출력+제본" + aj_sum2);
+                        break;
+                      }
+                      else if(pg_cnt < 800 && (aj_sze == '7' || aj_sze == '8'))
+                      {
+                        var aj_sum2 = aj_sum1 + 5000;
+                        // alert("출력+제본" + aj_sum2);
+                        break;
+                      }
+                      else if(pg_cnt <= 500 && (aj_sze == '3' || aj_sze == '4'))
+                      {
+                        var aj_sum2 = aj_sum1 + 5500;
+                        // alert("출력+제본" + aj_sum2);
+                        break;
+                      }
+                      else if(pg_cnt <= 600 && (aj_sze == '7' || aj_sze == '8'))
+                      {
+                        var aj_sum2 = aj_sum1 + 5500;
+                        // alert("출력+제본" + aj_sum2);
+                        break;
+                      }
+                      else
+                      {
+                          var aj_sum2 = aj_sum1 + 0;
+                          alert("다음 금액이 정확하지 않을 수 있습니다.<br>관리자에게 문의 하세요");
+                          break;
+                      }
+          default    :
+                      alert("다음 금액이 정확하지 않을 수 있습니다.<br>관리자에게 문의 하세요");
+        }
+        
+//        if (pg_cnt > 48)
+//        {
+//            return;
+//        }
+          
+        switch(aj_bind_len)
+        {
+          case '1' :
+                    var aj_sum3 = aj_sum2;
+                    break;
+          case '2' :
+                    var aj_sum3 = aj_sum2 + 0;
+                    break;
+          default :
+                    var aj_sum3 = aj_sum2;
+                    break;
+        }
+          
+      // alert("tot " + aj_sum3);
+        var aj_tot = aj_sum3 * book_cnt;
+      // 총액이 5,000원 미만이면 5,000원 5,000원 이상이면 총액으로
+        if(aj_tot<5000)
+        {
+            var adcma;
+            adcma = comma(aj_tot);
+            alert("주문금액은 " + adcma + "원이나\n\n최소 주문금액은 5,000원입니다.\n\n총 비용은 배송료 포함 8,500원 입니다.");
+        }
+        else
+        {
+            if (aj_tot < 1000000000000)
+            {
+                aj_tot = aj_tot;
+                var adcma;
+                adcma = comma(aj_tot);
+//              alert("총 금액은 " + aj_tot + "원입니다");
+                alert("총 금액은 " + adcma + "원 + 배송료 3,500원입니다.");
+            }
+            else
+            {
+            var adcma;
+            adcma = comma(aj_tot);
+//          alert("총 금액은 " + aj_tot + "원입니다");
+            alert("총 금액은 " + adcma + "원입니다. -무료배송-");
+            }
+        }
+      }
+          
+          
+      function comma(str) 
+      {
+            str = String(str);
+            return str.replace(/(\d)(?=(?:\d{3})+(?!\d))/g, '$1,');
+      }
+      </script>
