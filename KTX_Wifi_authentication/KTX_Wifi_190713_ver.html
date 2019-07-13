@@ -1,0 +1,129 @@
+<!-- Example Link: http://218.234.65.238/anylink3.cgi?res=notyet -->
+
+    <html>
+    <head>
+        
+        
+        <script language="JavaScript">
+
+            function doOnLoad(result, userurl, redirurl) {
+                if (result == 1) {
+                    if (redirurl) {
+                        window.location = redirurl;
+                    }
+                    else if (userurl) {
+                        window.location = userurl;
+                    }
+                    self.focus();
+                }
+
+                if (result == 2 || result == 4) {
+                    if (document.form1.UserName && document.form1.UserName.type != 'hidden')
+                        document.form1.UserName.focus();
+                }
+            }
+        </script>
+    </head>
+    <body onLoad="javascript:doOnLoad(4, 'http://www.msftconnecttest.com/redirect', '')" background="/uploads/assets/k_bg.png">
+    
+                <meta http-equiv="Content-Type" content="text/html; charset=euc-kr">
+                <form name="form1" method="post" action="">
+                <INPUT TYPE="hidden" NAME="challenge" VALUE="f9f2f4f3cf453c547caf58fbfb401a32">
+                <INPUT TYPE="hidden" NAME="uamip" VALUE="185.0.0.1">
+                <INPUT TYPE="hidden" NAME="uamport" VALUE="10000">
+                <INPUT TYPE="hidden" NAME="userurl" VALUE="http://www.msftconnecttest.com/redirect">
+                <INPUT TYPE="hidden" NAME="ssid" VALUE="KORAIL-WiFi">
+                <input name=UserName type=hidden value=30-52-cb-f4-1f-92>
+                <input name=Password type=hidden value=30-52-cb-f4-1f-92>
+                <INPUT TYPE="hidden" NAME="button" VALUE="Login">
+                <input name=nasid type=hidden value=506028094336>
+
+                
+<title>WIFI</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="user-scalable=no, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, width=device-width, target-densitydpi=medium-dpi" />  
+    <meta name="format-detection" content="telephone=no" />   
+    <meta name="location" content="South Korea" /> 
+	<link rel="stylesheet" type="text/css" href="/uploads/assets/layout_namsa.css" />
+    <script  src="./jquery-latest.min.js"></script>
+
+<!--
+a,area { blr:expression(this.onFocus=this.blur()) }
+:focus { -moz-outline-style: none; }
+-->
+</style> 
+<!--S 언어선택-->
+<div class="sel_lang">
+	<li class="lang_tit"><img src="/uploads/assets/lang_tit2_namsa.png" alt="select language" /></li>
+	<li class="lang">
+
+			<select name="sel_language" id="sel_language" class="sel_st" onchange="change_country(this.value);">
+						<option value="ko">KOR</option>
+						<option value="en">ENG</option>
+
+			  </select> 
+
+	</li>
+</div>
+<!--E 언어선택-->
+
+<!---------------------------------------------S 국문--------------------------------------------->
+<div id="ko" class="ch_lang" style="display:none">
+<center>
+<img src="/uploads/assets/web_kor_bg.png" alt="" usemap="#Map" />
+<map name="Map" id="Map">
+    <area alt="" title="" href="javascript:document.form1.submit();" shape="poly" coords="398.219970703125,150.54998779296875,345.54998779296875,173.22000122070312,326.2200012207031,222.54998779296875,348.2200012207031,276.54998779296875,400.8900146484375,297.219970703125,453.54998779296875,273.219970703125,471.54998779296875,223.22000122070312,448.219970703125,170.54998779296875" onfocus='this.blur()' />
+</map>
+</center>
+
+</div>
+
+<!---------------------------------------------E 국문--------------------------------------------->
+
+<!---------------------------------------------S 영문--------------------------------------------->
+<div id="en" class="ch_lang" style="display:none">
+<center>
+<img src="/uploads/assets/web_eng_bg.png" alt="" usemap="#Map2" />
+<map name="Map2" id="Map2">
+    <area alt="" title="" href="javascript:document.form1.submit();" shape="poly" coords="447,131,386,162,366,214,390,272,452,297,514,270,533,210,507,153" onfocus='this.blur()' />
+</map>
+</center>
+</div>
+<!---------------------------------------------E 영문--------------------------------------------->
+
+</form>
+
+  <script>
+  <!--  
+      var type = navigator.appName;
+      var lang;
+      
+      if(type == "Netscape"){
+        lang = navigator.language;
+      }else{
+        lang = navigator.userLanguage;
+      }
+      //국가 코드 자르기
+      var lang = lang.substr(0,2)
+      //자른 국가 코드를 이용한 폐이지 로딩
+
+      jQuery("#"+lang).attr("style","display:block");
+      jQuery("#sel_language").val(lang);
+
+      function change_country(country)
+      {
+      	    jQuery(".ch_lang").attr("style","display:none")
+      	    jQuery("#"+country).attr("style","display:block");
+           jQuery("#sel_language").val(country);     
+      }
+  -->  
+  </script>
+ 
+
+  </body>
+</html>
+
+                </form>
+
+                
