@@ -1,0 +1,181 @@
+<!-- EX) cafm.korea.ac.kr/archibus/se_cerper1.jsp -->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!DOCTYPE html>
+<html>
+<head>
+
+<title>이수증발급</title>
+<meta charset="euc-kr">
+
+<script src="//code.jquery.com/jquery-1.11.0.min.js"></script>
+<!--[if lt IE 9]><script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+
+<script src="./includes/pjs.js"></script>
+<script>
+
+	window.onload = function() {
+		$("#data_table .link").mouseover(function() {
+			$(this).addClass("pointer");
+		});
+		$("#data_table .link").mouseout(function() {
+			$(this).removeClass("pointer");
+		});
+		$("#back_layer").hide();
+
+		$("#section").css("height", $("#section").css("height"));
+	};
+
+</script>
+<link rel="stylesheet" type="text/css" href="./includes/reset.css" />
+<link rel="stylesheet" type="text/css" href="./includes/data_table.css" />
+<link rel="stylesheet" type="text/css" href="./includes/loading_progress.css" />
+<style>
+	
+	#section {width:800px!important;max-height:500px;overflow-y:scroll;overflow-x:auto;}
+	#data_table_header, #data_table {width:1100px;}
+	#nav {height:40px!important;}
+
+	#data_table_header th {height:22px!important;line-height:18px!important;}
+	#footer_tr {background-color: #F0F0F0;height:30px!important;}
+	#footer_tr td {line-height:30px!important;}
+	.red {color:red;}
+	.italic {color:red;}
+	.pointer {cursor:default!important;}
+	.bold {font-weight:bold;}
+	.right {text-align:right;}
+
+</style>
+</head>
+
+<body>
+
+<!-- loading progess layer Elements -->
+<div id="back_layer">
+	<div id="content_layer">
+		<div id="progress"><div id="progress_cover"></div></div>
+		<p id="progress_msg">
+			데이터를 처리 중입니다. 잠시만 기다려 주십시오.
+		</p>
+	</div>
+</div>
+
+<form method="post"  name="xel" ">
+
+	<div id="header" class="iframe_style" style="width:800px;">
+		<div id="header_top">
+			<p id="page_title">이수증발급</p>
+		</div>
+		<hr>
+		<div id="nav" style="width:800px;">
+			<input type="button" value="발급" onClick="poppop('win', 'se_certificate.jsp?sesch_id=10&seem_id=72357&emper=', 200, 200, 950, 950, 0, 0, 0, 'yes', 'yes')">
+			<input type="button" value="닫기" onClick="window.close();">
+		</div>
+	</div>
+	<table id="data_table_header" style="width:800px;">
+			<tr>
+				<th width="40%" class="colresize"><div class="filter_wrapper">학번/사번 여부</div></th>
+				<td width="60%" class="colresize">
+				<select name="emper" style="width:100%;" onchange="sub('1','se_cerper1')">
+						<option value="1" >학번</option>
+						<option value="2" >사번</option>
+				</select>
+				</td>
+			</tr>
+			<input type="hidden" name="em_id" style="width:99%;" value="">
+			<input type="hidden" name="sesch_id" style="width:99%;" value="sesch_id_lol">
+			<input type="hidden" name="seem_id" style="width:99%;" value="seem_id_lol">
+			<input type="hidden" name="se_type" style="width:99%;" value="">
+	</table>
+	<br>
+	<span style="color:red;font-size:9pt;font-weight:bold;">&nbsp;*학번이나 사번을 선택해주세요.</span>
+	<br><br>
+	<div id="footer" class="iframe_style"></div>
+</form>
+</body>
+</html>
+
+
+
+
+
+
+
+
+		
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ 
+
+ 
+
+
+
+
+
+
+
+ 
+
+
+
+
+
+
