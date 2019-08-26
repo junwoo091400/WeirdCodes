@@ -1,0 +1,59 @@
+
+
+
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="euc-kr">
+<title>코려대학교 공간 관리 및 실 예약 시스템</title>
+<script src="//code.jquery.com/jquery-1.11.0.min.js"></script>
+<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<!--[if lt IE 9]><script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+<script src="./includes/subfun.js"></script>
+
+
+<style>
+select, input[type="button"] {padding:10px 10px;margin-right:10px;}
+</style>
+</head>
+<body>
+	<form name="xel" style="width:100%;">
+	<div style="margin-top:20%;margin-left:30%;">
+	<input type="hidden" name="dchk" value="junuhunu">
+	<input type="hidden" name="se_chk" value="se" >
+	<input type="hidden" name="opt" value="2" >
+	
+	
+
+	
+
+	
+	<input type="hidden" name="opt" value="2" >
+			<select name="user_emp" onchange="sub('1','se_connect_chk')">
+				<option value="">학번 선택</option>
+	
+				<option value="yourNUMlol" selected>yourNUMlol</option>
+				
+			</select>	
+			<input type="button" value="선택" onclick="sel_fnc()" />
+		
+	</div>
+
+<script>	
+
+function sel_fnc(){
+	
+//				alert(" 님 환영합니다. \n아키시스템즈 (주)");
+				var uper = document.xel.user_emp.value;
+				sessionStorage.setItem("afmper", uper);
+				sub('1','connect_se');			
+	
+}
+</script>
+	</form>
+</body>
+
+</html>
+
+
